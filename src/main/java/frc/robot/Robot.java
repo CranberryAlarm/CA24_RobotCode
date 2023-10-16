@@ -4,7 +4,13 @@
 
 package frc.robot;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.wpi.first.wpilibj.TimedRobot;
+import frc.robot.subsystems.Compressor;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Subsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -13,15 +19,28 @@ import edu.wpi.first.wpilibj.TimedRobot;
  * project.
  */
 public class Robot extends TimedRobot {
+
+  // Robot subsystems
+  private List<Subsystem> m_allSubsystems = new ArrayList<>();
+  private final Intake m_intake = Intake.getInstance();
+  private final Compressor m_compressor = Compressor.getInstance();
+
   /**
-   * This function is run when the robot is first started up and should be used for any
-   * initialization code.
+   * This function is run when the robot is first started up.
    */
   @Override
-  public void robotInit() {}
+  public void robotInit() {
+    m_allSubsystems.add(m_intake);
+    m_allSubsystems.add(m_compressor);
+  }
 
   @Override
-  public void robotPeriodic() {}
+  public void robotPeriodic() {
+    m_allSubsystems.forEach(subsystem -> subsystem.periodic());
+    m_allSubsystems.forEach(subsystem -> subsystem.writePeriodicOutputs());
+    m_allSubsystems.forEach(subsystem -> subsystem.outputTelemetry());
+    m_allSubsystems.forEach(subsystem -> subsystem.writeToLog());
+  }
 
   @Override
   public void autonomousInit() {}
@@ -36,10 +55,15 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {}
 
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    m_allSubsystems.forEach(subsystem -> subsystem.stop());
+  }
 
   @Override
   public void disabledPeriodic() {}
+
+  @Override
+  public void disabledExit() {}
 
   @Override
   public void testInit() {}
