@@ -1,12 +1,12 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkMaxLimitSwitch;
-import com.revrobotics.SparkMaxLimitSwitch.Type;
-import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.SparkLimitSwitch;
+import com.revrobotics.SparkLimitSwitch.Type;
+import com.revrobotics.SparkPIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.simulation.SimulatableCANSparkMax;
@@ -33,14 +33,14 @@ public class Elevator extends Subsystem {
 
   private CANSparkMax mPivotMotor;
   private RelativeEncoder mPivotEncoder;
-  private SparkMaxPIDController mPivotPIDController;
-  private SparkMaxLimitSwitch mPivotLowerLimit;
+  private SparkPIDController mPivotPIDController;
+  private SparkLimitSwitch mPivotLowerLimit;
 
   private SimulatableCANSparkMax mExtensionMotor;
   private RelativeEncoder mExtensionEncoder;
-  private SparkMaxPIDController mExtensionPIDController;
-  private SparkMaxLimitSwitch mExtensionLowerLimit;
-  private SparkMaxLimitSwitch mExtensionUpperLimit;
+  private SparkPIDController mExtensionPIDController;
+  private SparkLimitSwitch mExtensionLowerLimit;
+  private SparkLimitSwitch mExtensionUpperLimit;
 
   private PeriodicIO mPeriodicIO = new PeriodicIO();
 
@@ -226,5 +226,11 @@ public class Elevator extends Subsystem {
     SmartDashboard.putNumber("Extension encoder count:", mExtensionEncoder.getPosition());
     SmartDashboard.putBoolean("Extension lower limit:", mExtensionLowerLimit.isPressed());
     SmartDashboard.putBoolean("Extension Upper limit:", mExtensionUpperLimit.isPressed());
+  }
+
+  @Override
+  public void reset() {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'reset'");
   }
 }
