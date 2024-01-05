@@ -9,7 +9,7 @@ public class Intake extends Subsystem {
 
   /*-------------------------------- Private instance variables ---------------------------------*/
   private static Intake mInstance;
-  private PeriodicIO mPeriodicIO = new PeriodicIO();
+  private PeriodicIO mPeriodicIO;
 
   public static Intake getInstance() {
     if (mInstance == null) {
