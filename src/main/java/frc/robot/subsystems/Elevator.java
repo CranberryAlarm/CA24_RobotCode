@@ -42,7 +42,7 @@ public class Elevator extends Subsystem {
   private SparkLimitSwitch mExtensionLowerLimit;
   private SparkLimitSwitch mExtensionUpperLimit;
 
-  private PeriodicIO mPeriodicIO = new PeriodicIO();
+  private PeriodicIO mPeriodicIO;
 
   private Elevator() {
     mPivotMotor = new CANSparkMax(Constants.kElevatorPivotMotorId, MotorType.kBrushless);
