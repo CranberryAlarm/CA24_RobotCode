@@ -7,7 +7,10 @@ package frc.robot;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.TimedRobot;
+import frc.robot.controls.controllers.DriverController;
+import frc.robot.controls.controllers.OperatorController;
 import frc.robot.subsystems.Compressor;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
@@ -20,12 +23,18 @@ import frc.robot.subsystems.Subsystem;
  * project.
  */
 public class Robot extends TimedRobot {
+  // Controller 
+  private final DriverController m_driverController = new DriverController(0, true, true);
+  private final OperatorController m_operatorController = new OperatorController(1, true, true);
+
+  private final SlewRateLimiter m_speedLimiter = new SlewRateLimiter(3); // 3 seconds to go from 0.0 to 1.0
+  private final SlewRateLimiter m_rotLimiter = new SlewRateLimiter(3); // 3 seconds to go from 0.0 to 1.0
 
   // Robot subsystems
   private List<Subsystem> m_allSubsystems = new ArrayList<>();
   private final Intake m_intake = Intake.getInstance();
   private final Compressor m_compressor = Compressor.getInstance();
-  private final Drivetrain m_drivetrain = Drivetrain.getInstance()
+  private final Drivetrain m_drive = Drivetrain.getInstance();
 
   /**
    * This function is run when the robot is first started up.
@@ -34,7 +43,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_allSubsystems.add(m_intake);
     m_allSubsystems.add(m_compressor);
-    m_allSubsystems.add(m_drivetrain);
+    m_allSubsystems.add(m_drive);
   }
 
   @Override
@@ -72,7 +81,22 @@ public class Robot extends TimedRobot {
   public void testInit() {}
 
   @Override
-  public void testPeriodic() {}
+  public void testPeriodic() {
+    // Get the x speed. We are inverting this because Xbox controllers return
+    // negative values when we push forward.
+    double xSpeed = -m_speedLimiter.calculate(-m_driverController.getForwardAxis()) *
+        Drivetrain.kMaxSpeed;
+
+    // Get the rate of angular rotation. We are inverting this because we want a
+    // positive value when we pull to the left (remember, CCW is positive in
+    // mathematics). Xbox controllers return positive values when you pull to
+    // the right by default.
+    m_drive.slowMode(m_driverController.getWantsSlowMode());
+    // m_drive.speedMode(m_driverController.getWantsSpeedMode());
+    double rot = -m_rotLimiter.calculate(-m_driverController.getTurnAxis()) *
+        Drivetrain.kMaxAngularSpeed;
+    m_drive.drive(xSpeed, rot);
+  }
 
   @Override
   public void simulationInit() {}
