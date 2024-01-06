@@ -25,7 +25,7 @@ public class Robot extends TimedRobot {
   private List<Subsystem> m_allSubsystems = new ArrayList<>();
   private final Intake m_intake = Intake.getInstance();
   private final Compressor m_compressor = Compressor.getInstance();
-  private final Drivetrain m_drivetrain = Drivetrain.getInstance()
+  private final Drivetrain m_drivetrain = Drivetrain.getInstance();
 
   /**
    * This function is run when the robot is first started up.
