@@ -9,6 +9,7 @@ import java.util.List;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.subsystems.Compressor;
+import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Subsystem;
 
@@ -24,6 +25,7 @@ public class Robot extends TimedRobot {
   private List<Subsystem> m_allSubsystems = new ArrayList<>();
   private final Intake m_intake = Intake.getInstance();
   private final Compressor m_compressor = Compressor.getInstance();
+  private final Drivetrain m_drivetrain = Drivetrain.getInstance()
 
   /**
    * This function is run when the robot is first started up.
@@ -32,6 +34,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_allSubsystems.add(m_intake);
     m_allSubsystems.add(m_compressor);
+    m_allSubsystems.add(m_drivetrain);
   }
 
   @Override
