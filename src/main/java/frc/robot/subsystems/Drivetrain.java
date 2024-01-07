@@ -5,9 +5,9 @@
 package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -24,8 +24,6 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
-import edu.wpi.first.wpilibj.simulation.AnalogGyroSim;
-import edu.wpi.first.wpilibj.simulation.EncoderSim;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
@@ -85,7 +83,6 @@ public class Drivetrain extends Subsystem {
   private final DifferentialDrivetrainSim mDrivetrainSimulator = new DifferentialDrivetrainSim(
       mDrivetrainSystem, DCMotor.getCIM(2), kGearRatio, kTrackWidth, kWheelRadius, null);
 
-
   private static Drivetrain mInstance;
   private static PeriodicIO mPeriodicIO;
 
@@ -121,7 +118,8 @@ public class Drivetrain extends Subsystem {
     mLeftEncoder.setPositionConversionFactor(kMetersPerRev);
     mRightEncoder.setPositionConversionFactor(kMetersPerRev);
     // The "native units" for the SparkMax is RPM:
-    // Conversion factor = (distance traveled per motor shaft rotation) / (60 seconds)
+    // Conversion factor = (distance traveled per motor shaft rotation) / (60
+    // seconds)
     mLeftEncoder.setVelocityConversionFactor(kMetersPerRev / 60);
     mRightEncoder.setVelocityConversionFactor(kMetersPerRev / 60);
 
@@ -144,10 +142,9 @@ public class Drivetrain extends Subsystem {
     double rightVoltage = 0.0;
   }
 
-  
   /**
    * Sets whether slow mode should be used
-   * 
+   *
    * @param slowMode Should slow mode be used
    */
   public void slowMode(boolean slowMode) {
@@ -156,7 +153,7 @@ public class Drivetrain extends Subsystem {
 
   /**
    * Sets whether speed mode should be used
-   * 
+   *
    * @param speedMode Should speed mode be used
    */
   public void speedMode(boolean speedMode) {
@@ -172,8 +169,9 @@ public class Drivetrain extends Subsystem {
   public void drive(double xSpeed, double rot) {
     if (mPeriodicIO.slowMode) {
       mPeriodicIO.diffWheelSpeeds = mKinematics.toWheelSpeeds(new ChassisSpeeds(xSpeed, 0, rot * kSlowModeRotScale));
-    } else if(mPeriodicIO.speedMode) {
-      mPeriodicIO.diffWheelSpeeds = mKinematics.toWheelSpeeds(new ChassisSpeeds(xSpeed * kSpeedModeScale, 0, rot * kSlowModeRotScale));
+    } else if (mPeriodicIO.speedMode) {
+      mPeriodicIO.diffWheelSpeeds = mKinematics
+          .toWheelSpeeds(new ChassisSpeeds(xSpeed * kSpeedModeScale, 0, rot * kSlowModeRotScale));
     } else {
       mPeriodicIO.diffWheelSpeeds = mKinematics.toWheelSpeeds(new ChassisSpeeds(xSpeed, 0, rot));
     }
@@ -221,8 +219,10 @@ public class Drivetrain extends Subsystem {
   public void periodic() {
     var leftFeedforward = mLeftFeedforward.calculate(mPeriodicIO.diffWheelSpeeds.leftMetersPerSecond);
     var rightFeedforward = mRightFeedforward.calculate(mPeriodicIO.diffWheelSpeeds.rightMetersPerSecond);
-    double leftOutput = mLeftPIDController.calculate(mLeftEncoder.getVelocity(), mPeriodicIO.diffWheelSpeeds.leftMetersPerSecond);
-    double rightOutput = mRightPIDController.calculate(-mRightEncoder.getVelocity(), mPeriodicIO.diffWheelSpeeds.rightMetersPerSecond);
+    double leftOutput = mLeftPIDController.calculate(mLeftEncoder.getVelocity(),
+        mPeriodicIO.diffWheelSpeeds.leftMetersPerSecond);
+    double rightOutput = mRightPIDController.calculate(-mRightEncoder.getVelocity(),
+        mPeriodicIO.diffWheelSpeeds.rightMetersPerSecond);
 
     mPeriodicIO.leftVoltage = leftOutput + leftFeedforward;
     mPeriodicIO.rightVoltage = rightOutput + rightFeedforward;
@@ -244,7 +244,7 @@ public class Drivetrain extends Subsystem {
 
   @Override
   public void stop() {
-    mPeriodicIO.diffWheelSpeeds = new DifferentialDriveWheelSpeeds(0.0,0.0);
+    mPeriodicIO.diffWheelSpeeds = new DifferentialDriveWheelSpeeds(0.0, 0.0);
   }
 
   @Override

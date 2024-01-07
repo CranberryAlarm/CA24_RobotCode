@@ -17,13 +17,16 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Subsystem;
 
 /**
- * The VM is configured to automatically run this class, and to call the functions corresponding to
- * each mode, as described in the TimedRobot documentation. If you change the name of this class or
- * the package after creating this project, you must also update the build.gradle file in the
+ * The VM is configured to automatically run this class, and to call the
+ * functions corresponding to
+ * each mode, as described in the TimedRobot documentation. If you change the
+ * name of this class or
+ * the package after creating this project, you must also update the
+ * build.gradle file in the
  * project.
  */
 public class Robot extends TimedRobot {
-  // Controller 
+  // Controller
   private final DriverController m_driverController = new DriverController(0, true, true);
   private final OperatorController m_operatorController = new OperatorController(1, true, true);
 
@@ -55,33 +58,19 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void autonomousInit() {}
-
-  @Override
-  public void autonomousPeriodic() {}
-
-  @Override
-  public void teleopInit() {}
-
-  @Override
-  public void teleopPeriodic() {}
-
-  @Override
-  public void disabledInit() {
-    m_allSubsystems.forEach(subsystem -> subsystem.stop());
+  public void autonomousInit() {
   }
 
   @Override
-  public void disabledPeriodic() {}
+  public void autonomousPeriodic() {
+  }
 
   @Override
-  public void disabledExit() {}
+  public void teleopInit() {
+  }
 
   @Override
-  public void testInit() {}
-
-  @Override
-  public void testPeriodic() {
+  public void teleopPeriodic() {
     // Get the x speed. We are inverting this because Xbox controllers return
     // negative values when we push forward.
     double xSpeed = -m_speedLimiter.calculate(-m_driverController.getForwardAxis()) *
@@ -95,12 +84,36 @@ public class Robot extends TimedRobot {
     // m_drive.speedMode(m_driverController.getWantsSpeedMode());
     double rot = -m_rotLimiter.calculate(-m_driverController.getTurnAxis()) *
         Drivetrain.kMaxAngularSpeed;
+
     m_drive.drive(xSpeed, rot);
   }
 
   @Override
-  public void simulationInit() {}
+  public void disabledInit() {
+    m_allSubsystems.forEach(subsystem -> subsystem.stop());
+  }
 
   @Override
-  public void simulationPeriodic() {}
+  public void disabledPeriodic() {
+  }
+
+  @Override
+  public void disabledExit() {
+  }
+
+  @Override
+  public void testInit() {
+  }
+
+  @Override
+  public void testPeriodic() {
+  }
+
+  @Override
+  public void simulationInit() {
+  }
+
+  @Override
+  public void simulationPeriodic() {
+  }
 }

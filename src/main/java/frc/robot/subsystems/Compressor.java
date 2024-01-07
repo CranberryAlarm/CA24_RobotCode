@@ -18,30 +18,34 @@ public class Compressor extends Subsystem {
   }
 
   private Compressor() {
-    m_compressor = new edu.wpi.first.wpilibj.Compressor(PneumaticsModuleType.REVPH);
+    m_compressor = new edu.wpi.first.wpilibj.Compressor(PneumaticsModuleType.CTREPCM);
   }
 
   /*-------------------------------- Generic Subsystem Functions --------------------------------*/
-  
-  @Override
-  public void periodic() {}
 
   @Override
-  public void writePeriodicOutputs() {}
-  
+  public void periodic() {
+  }
+
   @Override
-  public void stop() {}
-  
+  public void writePeriodicOutputs() {
+  }
+
+  @Override
+  public void stop() {
+  }
+
   @Override
   public void outputTelemetry() {
     SmartDashboard.putNumber("Compressor/Pressure", m_compressor.getPressure());
   }
-  
+
   @Override
-  public void reset() {}
-  
+  public void reset() {
+  }
+
   /*---------------------------------- Custom Public Functions ----------------------------------*/
 
   /*---------------------------------- Custom Private Functions ---------------------------------*/
-  
+
 }
