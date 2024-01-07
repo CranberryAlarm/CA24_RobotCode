@@ -29,11 +29,11 @@ public class DriverController extends FilteredController {
   }
 
   public double getShooterAxis() {
-    return this.getFilteredAxis(3) - 0.5;
+    return (this.getFilteredAxis(3) - 0.5) * 2;
   }
 
   public double getIntakeAxis() {
-    return this.getFilteredAxis(2) - 0.5;
+    return (this.getFilteredAxis(2) - 0.5) * 2;
   }
 
   public double getBoostScaler() {

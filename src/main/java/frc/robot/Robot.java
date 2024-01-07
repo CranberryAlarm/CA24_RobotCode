@@ -92,7 +92,6 @@ public class Robot extends TimedRobot {
 
     if (m_driverController.getShooterAxis() > 0.1) {
       m_shooter.setSpeed(m_driverController.getShooterAxis());
-      // m_shooter.setSpeed(0.5);
     } else {
       m_shooter.stopShooter();
     }

@@ -37,7 +37,7 @@ public class Drivetrain extends Subsystem {
   public static final double kMaxAcceleration = 2.0;
 
   // 0.7 rotations per second.
-  public static final double kMaxAngularSpeed = Math.PI * 0.7;
+  public static final double kMaxAngularSpeed = Math.PI * 0.8;
 
   private static final double kSlowModeRotScale = 0.1;
   private static final double kSpeedModeScale = 2.0;
