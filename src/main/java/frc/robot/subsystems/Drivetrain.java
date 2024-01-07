@@ -31,7 +31,7 @@ import frc.robot.simulation.SimulatableCANSparkMax;
 
 public class Drivetrain extends Subsystem {
   // 1 meters per second.
-  public static final double kMaxSpeed = 5.0;
+  public static final double kMaxSpeed = 2.5;
 
   // 3 meters per second.
   public static final double kMaxAcceleration = 2.0;
@@ -61,8 +61,8 @@ public class Drivetrain extends Subsystem {
   private final RelativeEncoder mLeftEncoder;
   private final RelativeEncoder mRightEncoder;
 
-  private final PIDController mLeftPIDController = new PIDController(2, 0, 0);
-  private final PIDController mRightPIDController = new PIDController(2, 0, 0);
+  private final PIDController mLeftPIDController = new PIDController(1, 0, 0);
+  private final PIDController mRightPIDController = new PIDController(1, 0, 0);
 
   private final AHRS mGyro = new AHRS();
 
