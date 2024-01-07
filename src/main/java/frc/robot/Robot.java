@@ -7,6 +7,7 @@ package frc.robot;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.TimedRobot;
 import frc.robot.controls.controllers.DriverController;
@@ -72,6 +73,8 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
   }
 
+  double speed = 0;
+
   @Override
   public void teleopPeriodic() {
     // Get the x speed. We are inverting this because Xbox controllers return
@@ -90,11 +93,35 @@ public class Robot extends TimedRobot {
 
     m_drive.drive(xSpeed, rot);
 
-    if (m_driverController.getShooterAxis() > 0.1) {
-      m_shooter.setSpeed(m_driverController.getShooterAxis());
-    } else {
-      m_shooter.stopShooter();
+    // if (m_driverController.getShooterAxis() > 0.1) {
+    // // m_shooter.setSpeed(m_driverController.getShooterAxis());
+    // m_shooter.setSpeed(0.15);
+    // } else {
+    // m_shooter.stopShooter();
+    // }
+    /*
+     * if (m_driverController.getRawButton(1)) {
+     * m_shooter.setSpeed(0.10);
+     * } else if (m_driverController.getRawButton(2)) {
+     * m_shooter.setSpeed(0.15);
+     * } else if (m_driverController.getRawButton(3)) {
+     * m_shooter.setSpeed(0.20);
+     * } else if (m_driverController.getRawButton(4)) {
+     * m_shooter.setSpeed(0.80);
+     * } else {
+     * m_shooter.setSpeed(0);
+     * }
+     */
+
+    if (m_driverController.getRawButtonPressed(5)) {
+      speed += .05;
+    } else if (m_driverController.getRawButtonPressed(6)) {
+      speed -= .05;
+    } else if (m_driverController.getRawButtonPressed(1)) {
+      speed = 0;
     }
+    speed = MathUtil.clamp(speed, -1, 1);
+    m_shooter.setSpeed(speed);
 
     if (m_driverController.getIntakeAxis() > 0.1) {
       m_intake.setSpeed(m_driverController.getIntakeAxis());
@@ -105,6 +132,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledInit() {
+    speed = 0;
     m_allSubsystems.forEach(subsystem -> subsystem.stop());
   }
 
