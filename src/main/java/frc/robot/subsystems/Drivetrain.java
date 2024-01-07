@@ -131,6 +131,18 @@ public class Drivetrain extends Subsystem {
 
     mPeriodicIO = new PeriodicIO();
 
+    // Configure AutoBuilder last
+    // AutoBuilder.configureRamsete(
+    // this::getPose, // Robot pose supplier
+    // this::resetOdometry, // Method to reset odometry (will be called if your auto
+    // has a starting pose)
+    // this::getCurrentSpeeds, // Current ChassisSpeeds supplier
+    // this::drive, // Method that will drive the robot given ChassisSpeeds
+    // new ReplanningConfig(), // Default path replanning config. See the API for
+    // the options here
+    // this // Reference to this subsystem to set requirements
+    // );
+
     SmartDashboard.putData("Field", mFieldSim);
   }
 
@@ -195,6 +207,21 @@ public class Drivetrain extends Subsystem {
   /** Check the current robot pose. */
   public Pose2d getPose() {
     return mOdometry.getPoseMeters();
+  }
+
+  public void setPose(Pose2d pose) {
+    mOdometry.resetPosition(
+        mGyro.getRotation2d(),
+        mLeftEncoder.getPosition(),
+        mRightEncoder.getPosition(),
+        pose);
+  }
+
+  public ChassisSpeeds getCurrentSpeeds() {
+    DifferentialDriveWheelSpeeds wheelSpeeds = new DifferentialDriveWheelSpeeds(mLeftEncoder.getVelocity(),
+        mRightEncoder.getVelocity());
+
+    return mKinematics.toChassisSpeeds(wheelSpeeds);
   }
 
   /** Update our simulation. This should be run every robot loop in simulation. */
