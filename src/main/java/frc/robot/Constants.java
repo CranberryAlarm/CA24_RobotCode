@@ -1,5 +1,7 @@
 package frc.robot;
 
+import edu.wpi.first.math.util.Units;
+
 public class Constants {
   // PCM
   public static final int kPCMId = 0;
@@ -37,4 +39,16 @@ public class Constants {
   public static final double kExtensionStowCount = 0;
   public static final double kExtensionMidGoalCount = 34;
   public static final double kExtensionHighGoalCount = 72;
+
+  public static class Field {
+    // All dimensions from Figure 5-16 in the manual
+    // public static final double k_lowGoalX = 22.75; // Inches
+    // public static final double k_lowGoalHeight = 34; // Inches
+
+    // public static final double k_highGoalX = 39.75; // Inches
+    // public static final double k_highGoalHeight = 46; // Inches
+
+    public static final double k_width = Units.feetToMeters(54.0);
+    public static final double k_length = Units.feetToMeters(27.0);
+  }
 }
