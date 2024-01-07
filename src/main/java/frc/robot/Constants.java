@@ -14,6 +14,9 @@ public class Constants {
   public static final int kElevatorPivotMotorId = 10;
   public static final int kElevatorExtensionMotorId = 9;
 
+  // Intake
+  public static final int kIntakeMotorId = 11;
+
   // Shooter
   public static final int kShooterLeftMotorId = 12;
   public static final int kShooterRightMotorId = 13;

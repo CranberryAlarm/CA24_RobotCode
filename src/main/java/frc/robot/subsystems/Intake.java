@@ -1,7 +1,8 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.Solenoid;
+import com.revrobotics.CANSparkFlex;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
@@ -18,49 +19,55 @@ public class Intake extends Subsystem {
     return mInstance;
   }
 
-  private Solenoid mIntakeSolenoid;
+  private CANSparkFlex mIntakeMotor;
 
   private Intake() {
-    mIntakeSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.kIntakeSolenoidForwardId);
+    mIntakeMotor = new CANSparkFlex(Constants.kIntakeMotorId, MotorType.kBrushless);
+
+    mIntakeMotor.setInverted(true);
+
+    mIntakeMotor.setIdleMode(CANSparkFlex.IdleMode.kCoast);
 
     mPeriodicIO = new PeriodicIO();
   }
 
   private static class PeriodicIO {
-    boolean intake_solenoid_state = true;
+    double intake_speed = 0.0;
   }
 
   /*-------------------------------- Generic Subsystem Functions --------------------------------*/
-  
+
   @Override
-  public void periodic() {}
+  public void periodic() {
+  }
 
   @Override
   public void writePeriodicOutputs() {
-    mIntakeSolenoid.set(mPeriodicIO.intake_solenoid_state);
+    mIntakeMotor.set(mPeriodicIO.intake_speed);
   }
-  
+
   @Override
   public void stop() {
-    mIntakeSolenoid.set(false);
+    stopIntake();
   }
-  
+
   @Override
   public void outputTelemetry() {
-    SmartDashboard.putBoolean("Intake state:", mIntakeSolenoid.get());
+    SmartDashboard.putNumber("Intake speed:", mPeriodicIO.intake_speed);
   }
-  
+
   @Override
-  public void reset() {}
-  
+  public void reset() {
+  }
+
   /*---------------------------------- Custom Public Functions ----------------------------------*/
 
-  public void open() {
-    mPeriodicIO.intake_solenoid_state = false;
+  public void setSpeed(double speed) {
+    mPeriodicIO.intake_speed = speed;
   }
-  
-  public void close() {
-    mPeriodicIO.intake_solenoid_state = true;
+
+  public void stopIntake() {
+    mPeriodicIO.intake_speed = 0.0;
   }
 
   /*---------------------------------- Custom Private Functions ---------------------------------*/

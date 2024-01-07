@@ -17,7 +17,7 @@ public class DriverController extends FilteredController {
   private final double k_triggerActivationThreshold = 0.5;
 
   public double getForwardAxis() {
-    return -this.getFilteredAxis(1);
+    return this.getFilteredAxis(1);
   }
 
   public double getStrafeAxis() {
@@ -30,6 +30,10 @@ public class DriverController extends FilteredController {
 
   public double getShooterAxis() {
     return this.getFilteredAxis(3) - 0.5;
+  }
+
+  public double getIntakeAxis() {
+    return this.getFilteredAxis(2) - 0.5;
   }
 
   public double getBoostScaler() {

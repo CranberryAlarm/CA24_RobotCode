@@ -52,6 +52,7 @@ public class Shooter extends Subsystem {
 
   @Override
   public void stop() {
+    stopShooter();
   }
 
   @Override

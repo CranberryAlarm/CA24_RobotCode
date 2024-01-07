@@ -91,10 +91,16 @@ public class Robot extends TimedRobot {
     m_drive.drive(xSpeed, rot);
 
     if (m_driverController.getShooterAxis() > 0.1) {
-      // m_shooter.setSpeed(m_driverController.getShooterAxis());
-      m_shooter.setSpeed(0.5);
+      m_shooter.setSpeed(m_driverController.getShooterAxis());
+      // m_shooter.setSpeed(0.5);
     } else {
       m_shooter.stopShooter();
+    }
+
+    if (m_driverController.getIntakeAxis() > 0.1) {
+      m_intake.setSpeed(m_driverController.getIntakeAxis());
+    } else {
+      m_intake.stopIntake();
     }
   }
 
