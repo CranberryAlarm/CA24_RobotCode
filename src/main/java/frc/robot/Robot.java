@@ -14,6 +14,7 @@ import frc.robot.controls.controllers.OperatorController;
 import frc.robot.subsystems.Compressor;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Subsystem;
 
 /**
@@ -38,6 +39,7 @@ public class Robot extends TimedRobot {
   private final Intake m_intake = Intake.getInstance();
   private final Compressor m_compressor = Compressor.getInstance();
   private final Drivetrain m_drive = Drivetrain.getInstance();
+  private final Shooter m_shooter = Shooter.getInstance();
 
   /**
    * This function is run when the robot is first started up.
@@ -47,6 +49,7 @@ public class Robot extends TimedRobot {
     m_allSubsystems.add(m_intake);
     m_allSubsystems.add(m_compressor);
     m_allSubsystems.add(m_drive);
+    m_allSubsystems.add(m_shooter);
   }
 
   @Override
@@ -86,6 +89,13 @@ public class Robot extends TimedRobot {
         Drivetrain.kMaxAngularSpeed;
 
     m_drive.drive(xSpeed, rot);
+
+    if (m_driverController.getShooterAxis() > 0.1) {
+      // m_shooter.setSpeed(m_driverController.getShooterAxis());
+      m_shooter.setSpeed(0.5);
+    } else {
+      m_shooter.stopShooter();
+    }
   }
 
   @Override

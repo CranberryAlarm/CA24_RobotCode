@@ -27,6 +27,11 @@ public class Shooter extends Subsystem {
 
     mLeftShooterMotor = new CANSparkFlex(Constants.kShooterLeftMotorId, MotorType.kBrushless);
     mRightShooterMotor = new CANSparkFlex(Constants.kShooterRightMotorId, MotorType.kBrushless);
+
+    mLeftShooterMotor.setIdleMode(CANSparkFlex.IdleMode.kCoast);
+    mRightShooterMotor.setIdleMode(CANSparkFlex.IdleMode.kCoast);
+
+    mLeftShooterMotor.setInverted(true);
   }
 
   private static class PeriodicIO {
@@ -60,7 +65,7 @@ public class Shooter extends Subsystem {
 
   /*---------------------------------- Custom Public Functions ----------------------------------*/
 
-  public void setShooterSpeed(double speed) {
+  public void setSpeed(double speed) {
     mPeriodicIO.shooter_speed = speed;
   }
 

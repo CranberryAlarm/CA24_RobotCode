@@ -28,6 +28,10 @@ public class DriverController extends FilteredController {
     return -this.getFilteredAxis(4);
   }
 
+  public double getShooterAxis() {
+    return this.getFilteredAxis(3) - 0.5;
+  }
+
   public double getBoostScaler() {
     return this.getFilteredAxis(2);
   }
@@ -52,7 +56,6 @@ public class DriverController extends FilteredController {
   public boolean getWantsBrake() {
     return this.getRawButton(5);
   }
-
 
   public void outputTelemetry() {
     SmartDashboard.putNumber(m_smartDashboardKey + "Forward", getForwardAxis());
