@@ -19,11 +19,11 @@ public class Constants {
     public static final double k_pivotEncoderOffset = 0.166842; // Straight up
 
     public static final double k_pivotAngleGround = 56;
-    public static final double k_pivotAngleSource = 180;
+    public static final double k_pivotAngleSource = 190;
     public static final double k_pivotAngleStow = 270; // Stowed inside the robot
 
     public static final double k_intakeSpeed = 0.7;
-    public static final double k_ejectSpeed = -0.3;
+    public static final double k_ejectSpeed = -0.45;
     public static final double k_feedShooterSpeed = -0.5;
   }
 

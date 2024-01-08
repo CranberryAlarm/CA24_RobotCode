@@ -114,20 +114,22 @@ public class Robot extends TimedRobot {
     // }
 
     // Shooter variable speed
-    if (m_driverController.getRawButtonPressed(5)) {
-      speed += .05;
-    } else if (m_driverController.getRawButtonPressed(6)) {
-      speed -= .05;
-    } else if (m_driverController.getRawButtonPressed(1)) {
+    if (m_driverController.getWantsMoreSpeed()) {
+      speed += .01;
+    } else if (m_driverController.getWantsLessSpeed()) {
+      speed -= .01;
+    } else if (m_driverController.getWantsShooterStop()) {
       speed = 0;
     }
     speed = MathUtil.clamp(speed, -1, 1);
     m_shooter.setSpeed(speed);
 
     // Intake
-    if (m_driverController.getWantsIntake()) {
+    if (m_driverController.getWantsFullIntake()) {
       m_intake.intake();
       m_intake.deploy();
+    } else if (m_driverController.getWantsIntake()) {
+      m_intake.intake();
     } else if (m_driverController.getWantsEject()) {
       m_intake.eject();
     } else if (m_driverController.getWantsSource()) {
