@@ -14,11 +14,13 @@ public class Constants {
 
     public static final int k_pivotEncoderId = 0; // DIO
 
-    public static final double k_pivotEncoderOffset = 0.4332; // Stowed on the hard stop inside the robot
+    // public static final double k_pivotEncoderOffset = 0.4332; // Stowed on the
+    // hard stop inside the robot
+    public static final double k_pivotEncoderOffset = 0.166842; // Straight up
 
-    public static final double k_pivotAngleHome = 0; // Stowed inside the robot
-    public static final double k_pivotAngleSource = -90;
-    public static final double k_pivotAngleGround = -220;
+    public static final double k_pivotAngleGround = 56;
+    public static final double k_pivotAngleSource = 180;
+    public static final double k_pivotAngleStow = 270; // Stowed inside the robot
 
     public static final double k_intakeSpeed = 0.7;
     public static final double k_ejectSpeed = -0.3;

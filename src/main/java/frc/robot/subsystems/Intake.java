@@ -8,11 +8,12 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
+import frc.robot.Helpers;
 
 public class Intake extends Subsystem {
 
   // New test PID values
-  private static final double k_pivotMotorP = 1.0;
+  private static final double k_pivotMotorP = 0.04;
   private static final double k_pivotMotorI = 0.0;
   private static final double k_pivotMotorD = 0.0;
 
@@ -43,18 +44,19 @@ public class Intake extends Subsystem {
     mPivotMotor = new CANSparkMax(Constants.Intake.kPivotMotorId, MotorType.kBrushless);
     mPivotMotor.restoreFactoryDefaults();
     mPivotMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    mPivotMotor.setSmartCurrentLimit(30);
 
     // m_pivotPID.enableContinuousInput(0, 360);
 
     // TODO; Figure out how this actually works
-    m_pivotEncoder.setPositionOffset(Constants.Intake.k_pivotEncoderOffset);
+    // m_pivotEncoder.setPositionOffset(Constants.Intake.k_pivotEncoderOffset);
 
     m_periodicIO = new PeriodicIO();
   }
 
   private static class PeriodicIO {
     // Automated control
-    double pivot_angle = 0.0;
+    double pivot_angle = Constants.Intake.k_pivotAngleStow;
 
     // Manual control
     double intake_speed = 0.0;
@@ -82,7 +84,7 @@ public class Intake extends Subsystem {
     stopIntake();
 
     // Set the target angle to the current angle
-    m_periodicIO.pivot_angle = getPivotAngleDegrees();
+    // m_periodicIO.pivot_angle = getPivotAngleDegrees();
     m_periodicIO.intake_pivot_power = 0.0;
   }
 
@@ -95,6 +97,7 @@ public class Intake extends Subsystem {
     SmartDashboard.putNumber("Pivot Setpoint:", m_periodicIO.pivot_angle);
 
     SmartDashboard.putNumber("Pivot Power:", m_periodicIO.intake_pivot_power);
+    SmartDashboard.putNumber("Pivot Current:", mPivotMotor.getOutputCurrent());
   }
 
   @Override
@@ -104,12 +107,12 @@ public class Intake extends Subsystem {
   /*---------------------------------- Custom Public Functions ----------------------------------*/
 
   public double getPivotAngleDegrees() {
-    // double value = m_pivotEncoder.getAbsolutePosition() -
-    // Constants.Intake.k_pivotEncoderOffset;
+    double value = m_pivotEncoder.getAbsolutePosition() -
+        Constants.Intake.k_pivotEncoderOffset + 0.5;
 
-    double value = m_pivotEncoder.get();
+    // double value = m_pivotEncoder.get();
 
-    return Units.rotationsToDegrees(value);
+    return Units.rotationsToDegrees(Helpers.modRotations(value));
   }
 
   public void intake() {
@@ -121,7 +124,7 @@ public class Intake extends Subsystem {
   }
 
   public void stow() {
-    m_periodicIO.pivot_angle = Constants.Intake.k_pivotAngleHome;
+    m_periodicIO.pivot_angle = Constants.Intake.k_pivotAngleStow;
   }
 
   public void source() {
