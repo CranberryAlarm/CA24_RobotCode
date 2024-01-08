@@ -62,6 +62,14 @@ public class Intake extends Subsystem {
 
   /*---------------------------------- Custom Public Functions ----------------------------------*/
 
+  public void intake() {
+    mPeriodicIO.intake_speed = Constants.Intake.k_intakeSpeed;
+  }
+
+  public void eject() {
+    mPeriodicIO.intake_speed = Constants.Intake.k_ejectSpeed;
+  }
+
   public void setSpeed(double speed) {
     mPeriodicIO.intake_speed = speed;
   }

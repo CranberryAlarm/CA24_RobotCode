@@ -3,6 +3,16 @@ package frc.robot;
 import edu.wpi.first.math.util.Units;
 
 public class Constants {
+  public static class Robot {
+    public static final double k_width = 26; // Inches
+    public static final double k_length = 28; // Inches
+  }
+
+  public static class Intake {
+    public static final double k_intakeSpeed = 0.7;
+    public static final double k_ejectSpeed = -0.3;
+  }
+
   // PCM
   public static final int kPCMId = 0;
   public static final int kIntakeSolenoidForwardId = 2;

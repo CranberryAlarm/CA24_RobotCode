@@ -99,20 +99,21 @@ public class Robot extends TimedRobot {
     // } else {
     // m_shooter.stopShooter();
     // }
-    /*
-     * if (m_driverController.getRawButton(1)) {
-     * m_shooter.setSpeed(0.10);
-     * } else if (m_driverController.getRawButton(2)) {
-     * m_shooter.setSpeed(0.15);
-     * } else if (m_driverController.getRawButton(3)) {
-     * m_shooter.setSpeed(0.20);
-     * } else if (m_driverController.getRawButton(4)) {
-     * m_shooter.setSpeed(0.80);
-     * } else {
-     * m_shooter.setSpeed(0);
-     * }
-     */
 
+    // Shooter fixed speed
+    if (m_driverController.getRawButton(1)) {
+      m_shooter.setSpeed(0.10);
+    } else if (m_driverController.getRawButton(2)) {
+      m_shooter.setSpeed(0.15);
+    } else if (m_driverController.getRawButton(3)) {
+      m_shooter.setSpeed(0.20);
+    } else if (m_driverController.getRawButton(4)) {
+      m_shooter.setSpeed(0.80);
+    } else {
+      m_shooter.setSpeed(0);
+    }
+
+    // Shooter variable speed
     if (m_driverController.getRawButtonPressed(5)) {
       speed += .05;
     } else if (m_driverController.getRawButtonPressed(6)) {
@@ -123,8 +124,11 @@ public class Robot extends TimedRobot {
     speed = MathUtil.clamp(speed, -1, 1);
     m_shooter.setSpeed(speed);
 
-    if (m_driverController.getIntakeAxis() > 0.1) {
-      m_intake.setSpeed(m_driverController.getIntakeAxis());
+    // Intake
+    if (m_driverController.getWantsIntake()) {
+      m_intake.intake();
+    } else if (m_driverController.getWantsEject()) {
+      m_intake.eject();
     } else {
       m_intake.stopIntake();
     }
