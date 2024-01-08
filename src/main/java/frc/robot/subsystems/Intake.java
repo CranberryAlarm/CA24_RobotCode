@@ -80,6 +80,9 @@ public class Intake extends Subsystem {
   @Override
   public void outputTelemetry() {
     SmartDashboard.putNumber("Intake speed:", mPeriodicIO.intake_speed);
+    SmartDashboard.putNumber("Pivot Abs Enc (get):", m_pivotEncoder.get());
+    SmartDashboard.putNumber("Pivot Abs Enc (getAbsolutePosition):", m_pivotEncoder.getAbsolutePosition());
+    SmartDashboard.putNumber("Pivot Setpoint:", mPeriodicIO.pivot_angle);
   }
 
   @Override
