@@ -45,6 +45,8 @@ public class Intake extends Subsystem {
 
     m_pivotPID.enableContinuousInput(0, 360);
 
+    m_pivotEncoder.setPositionOffset(Constants.Intake.k_pivotEncoderHome);
+
     mPeriodicIO = new PeriodicIO();
   }
 
