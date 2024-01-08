@@ -193,6 +193,15 @@ public class Drivetrain extends Subsystem {
     mPeriodicIO.diffWheelSpeeds = mKinematics.toWheelSpeeds(speeds);
   }
 
+  public void clearTurnPIDAccumulation() {
+    mLeftPIDController.reset();
+    mRightPIDController.reset();
+  }
+
+  public void setGyroAngleAdjustment(double angle) {
+    mGyro.setAngleAdjustment(angle);
+  }
+
   /** Update robot odometry. */
   public void updateOdometry() {
     mOdometry.update(mGyro.getRotation2d(), mLeftEncoder.getPosition(), -mRightEncoder.getPosition());
