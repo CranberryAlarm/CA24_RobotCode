@@ -33,12 +33,11 @@ public class DriverController extends FilteredController {
   }
 
   public boolean getWantsIntake() {
-    return this.getFilteredAxis(2) > 0.7;
+    return this.getRawButton(1);
   }
 
   public boolean getWantsEject() {
-    return false;
-    // return (this.getFilteredAxis(2) - 0.5) * 2; // Scale -1 to 1 -> 0 to 1
+    return this.getRawButton(2);
   }
 
   public double getBoostScaler() {

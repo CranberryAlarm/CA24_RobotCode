@@ -101,17 +101,17 @@ public class Robot extends TimedRobot {
     // }
 
     // Shooter fixed speed
-    if (m_driverController.getRawButton(1)) {
-      m_shooter.setSpeed(0.10);
-    } else if (m_driverController.getRawButton(2)) {
-      m_shooter.setSpeed(0.15);
-    } else if (m_driverController.getRawButton(3)) {
-      m_shooter.setSpeed(0.20);
-    } else if (m_driverController.getRawButton(4)) {
-      m_shooter.setSpeed(0.80);
-    } else {
-      m_shooter.setSpeed(0);
-    }
+    // if (m_driverController.getRawButton(1)) {
+    // m_shooter.setSpeed(0.10);
+    // } else if (m_driverController.getRawButton(2)) {
+    // m_shooter.setSpeed(0.15);
+    // } else if (m_driverController.getRawButton(3)) {
+    // m_shooter.setSpeed(0.20);
+    // } else if (m_driverController.getRawButton(4)) {
+    // m_shooter.setSpeed(0.80);
+    // } else {
+    // m_shooter.setSpeed(0);
+    // }
 
     // Shooter variable speed
     if (m_driverController.getRawButtonPressed(5)) {

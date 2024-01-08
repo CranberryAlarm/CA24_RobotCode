@@ -1,12 +1,23 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
 public class Intake extends Subsystem {
+
+  // New test PID values
+  private static final double k_pivotMotorP = 1.0;
+  private static final double k_pivotMotorI = 0.0;
+  private static final double k_pivotMotorD = 0.0;
+
+  private final PIDController m_pivotPID = new PIDController(k_pivotMotorP, k_pivotMotorI, k_pivotMotorD);
+
+  private final DutyCycleEncoder m_pivotEncoder = new DutyCycleEncoder(Constants.Intake.k_pivotEncoderId);
 
   /*-------------------------------- Private instance variables ---------------------------------*/
   private static Intake mInstance;
@@ -19,20 +30,31 @@ public class Intake extends Subsystem {
     return mInstance;
   }
 
-  private CANSparkFlex mIntakeMotor;
+  private CANSparkMax mIntakeMotor;
+  private CANSparkMax mPivotMotor;
 
   private Intake() {
-    mIntakeMotor = new CANSparkFlex(Constants.kIntakeMotorId, MotorType.kBrushless);
+    mIntakeMotor = new CANSparkMax(Constants.Intake.kIntakeMotorId, MotorType.kBrushless);
+    mIntakeMotor.restoreFactoryDefaults();
+    // mIntakeMotor.setInverted(true);
+    mIntakeMotor.setIdleMode(CANSparkMax.IdleMode.kCoast);
 
-    mIntakeMotor.setInverted(true);
+    mPivotMotor = new CANSparkMax(Constants.Intake.kPivotMotorId, MotorType.kBrushless);
+    mPivotMotor.restoreFactoryDefaults();
+    mPivotMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
-    mIntakeMotor.setIdleMode(CANSparkFlex.IdleMode.kCoast);
+    m_pivotPID.enableContinuousInput(0, 360);
 
     mPeriodicIO = new PeriodicIO();
   }
 
   private static class PeriodicIO {
+    // Automated control
+    double pivot_angle = 0.0;
+
+    // Manual control
     double intake_speed = 0.0;
+    double pivot_speed = 0.0;
   }
 
   /*-------------------------------- Generic Subsystem Functions --------------------------------*/

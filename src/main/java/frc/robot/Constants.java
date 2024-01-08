@@ -9,6 +9,11 @@ public class Constants {
   }
 
   public static class Intake {
+    public static final int kIntakeMotorId = 9;
+    public static final int kPivotMotorId = 14; // ???
+
+    public static final int k_pivotEncoderId = 0; // DIO
+
     public static final double k_intakeSpeed = 0.7;
     public static final double k_ejectSpeed = -0.3;
     public static final double k_feedShooterSpeed = -0.5;
@@ -19,9 +24,6 @@ public class Constants {
   public static final int kIntakeSolenoidForwardId = 2;
 
   // DIO
-
-  // Intake
-  public static final int kIntakeMotorId = 11;
 
   // Shooter
   public static final int kShooterLeftMotorId = 12;
