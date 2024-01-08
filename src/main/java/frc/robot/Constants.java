@@ -10,12 +10,15 @@ public class Constants {
 
   public static class Intake {
     public static final int kIntakeMotorId = 9;
-    public static final int kPivotMotorId = 14; // ???
+    public static final int kPivotMotorId = 10;
 
     public static final int k_pivotEncoderId = 0; // DIO
-    public static final double k_pivotEncoderHome = 0.4332; // Stowed on the hard stop inside the robot
-    public static final double k_pivotEncoderGround = 0.8234; // Stowed on bumper hard stop
 
+    public static final double k_pivotEncoderOffset = 0.4332; // Stowed on the hard stop inside the robot
+
+    public static final double k_pivotAngleHome = 0; // Stowed inside the robot
+    public static final double k_pivotAngleSource = -90;
+    public static final double k_pivotAngleGround = -220;
 
     public static final double k_intakeSpeed = 0.7;
     public static final double k_ejectSpeed = -0.3;

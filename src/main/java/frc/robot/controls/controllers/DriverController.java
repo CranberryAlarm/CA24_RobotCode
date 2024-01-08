@@ -40,6 +40,14 @@ public class DriverController extends FilteredController {
     return this.getRawButton(2);
   }
 
+  public boolean getWantsSource() {
+    return this.getRawButton(3);
+  }
+
+  public boolean getWantsStow() {
+    return this.getRawButton(4);
+  }
+
   public double getBoostScaler() {
     return this.getFilteredAxis(2);
   }

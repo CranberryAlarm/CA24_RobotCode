@@ -4,6 +4,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
@@ -21,7 +22,7 @@ public class Intake extends Subsystem {
 
   /*-------------------------------- Private instance variables ---------------------------------*/
   private static Intake mInstance;
-  private PeriodicIO mPeriodicIO;
+  private PeriodicIO m_periodicIO;
 
   public static Intake getInstance() {
     if (mInstance == null) {
@@ -43,11 +44,12 @@ public class Intake extends Subsystem {
     mPivotMotor.restoreFactoryDefaults();
     mPivotMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
-    m_pivotPID.enableContinuousInput(0, 360);
+    // m_pivotPID.enableContinuousInput(0, 360);
 
-    m_pivotEncoder.setPositionOffset(Constants.Intake.k_pivotEncoderHome);
+    // TODO; Figure out how this actually works
+    m_pivotEncoder.setPositionOffset(Constants.Intake.k_pivotEncoderOffset);
 
-    mPeriodicIO = new PeriodicIO();
+    m_periodicIO = new PeriodicIO();
   }
 
   private static class PeriodicIO {
@@ -56,35 +58,43 @@ public class Intake extends Subsystem {
 
     // Manual control
     double intake_speed = 0.0;
-    double pivot_speed = 0.0;
+    double intake_pivot_power = 0.0;
   }
 
   /*-------------------------------- Generic Subsystem Functions --------------------------------*/
 
   @Override
   public void periodic() {
+    m_periodicIO.intake_pivot_power = m_pivotPID.calculate(getPivotAngleDegrees(), m_periodicIO.pivot_angle);
   }
 
   @Override
   public void writePeriodicOutputs() {
-    // TODO: Add intkae pivot motor
+    mPivotMotor.setVoltage(m_periodicIO.intake_pivot_power);
 
     // TODO: Add intake limit switch
 
-    mIntakeMotor.set(mPeriodicIO.intake_speed);
+    mIntakeMotor.set(m_periodicIO.intake_speed);
   }
 
   @Override
   public void stop() {
     stopIntake();
+
+    // Set the target angle to the current angle
+    m_periodicIO.pivot_angle = getPivotAngleDegrees();
+    m_periodicIO.intake_pivot_power = 0.0;
   }
 
   @Override
   public void outputTelemetry() {
-    SmartDashboard.putNumber("Intake speed:", mPeriodicIO.intake_speed);
+    SmartDashboard.putNumber("Intake speed:", m_periodicIO.intake_speed);
     SmartDashboard.putNumber("Pivot Abs Enc (get):", m_pivotEncoder.get());
     SmartDashboard.putNumber("Pivot Abs Enc (getAbsolutePosition):", m_pivotEncoder.getAbsolutePosition());
-    SmartDashboard.putNumber("Pivot Setpoint:", mPeriodicIO.pivot_angle);
+    SmartDashboard.putNumber("Pivot Abs Enc (getPivotAngleDegrees):", getPivotAngleDegrees());
+    SmartDashboard.putNumber("Pivot Setpoint:", m_periodicIO.pivot_angle);
+
+    SmartDashboard.putNumber("Pivot Power:", m_periodicIO.intake_pivot_power);
   }
 
   @Override
@@ -93,24 +103,45 @@ public class Intake extends Subsystem {
 
   /*---------------------------------- Custom Public Functions ----------------------------------*/
 
+  public double getPivotAngleDegrees() {
+    // double value = m_pivotEncoder.getAbsolutePosition() -
+    // Constants.Intake.k_pivotEncoderOffset;
+
+    double value = m_pivotEncoder.get();
+
+    return Units.rotationsToDegrees(value);
+  }
+
   public void intake() {
-    mPeriodicIO.intake_speed = Constants.Intake.k_intakeSpeed;
+    m_periodicIO.intake_speed = Constants.Intake.k_intakeSpeed;
+  }
+
+  public void deploy() {
+    m_periodicIO.pivot_angle = Constants.Intake.k_pivotAngleGround;
+  }
+
+  public void stow() {
+    m_periodicIO.pivot_angle = Constants.Intake.k_pivotAngleHome;
+  }
+
+  public void source() {
+    m_periodicIO.pivot_angle = Constants.Intake.k_pivotAngleSource;
   }
 
   public void eject() {
-    mPeriodicIO.intake_speed = Constants.Intake.k_ejectSpeed;
+    m_periodicIO.intake_speed = Constants.Intake.k_ejectSpeed;
   }
 
   public void feedShooter() {
-    mPeriodicIO.intake_speed = Constants.Intake.k_feedShooterSpeed;
+    m_periodicIO.intake_speed = Constants.Intake.k_feedShooterSpeed;
   }
 
   public void setSpeed(double speed) {
-    mPeriodicIO.intake_speed = speed;
+    m_periodicIO.intake_speed = speed;
   }
 
   public void stopIntake() {
-    mPeriodicIO.intake_speed = 0.0;
+    m_periodicIO.intake_speed = 0.0;
   }
 
   /*---------------------------------- Custom Private Functions ---------------------------------*/
