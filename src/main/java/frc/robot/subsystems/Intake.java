@@ -43,6 +43,10 @@ public class Intake extends Subsystem {
 
   @Override
   public void writePeriodicOutputs() {
+    // TODO: Add intkae pivot motor
+
+    // TODO: Add intake limit switch
+
     mIntakeMotor.set(mPeriodicIO.intake_speed);
   }
 
@@ -68,6 +72,10 @@ public class Intake extends Subsystem {
 
   public void eject() {
     mPeriodicIO.intake_speed = Constants.Intake.k_ejectSpeed;
+  }
+
+  public void feedShooter() {
+    mPeriodicIO.intake_speed = Constants.Intake.k_feedShooterSpeed;
   }
 
   public void setSpeed(double speed) {
