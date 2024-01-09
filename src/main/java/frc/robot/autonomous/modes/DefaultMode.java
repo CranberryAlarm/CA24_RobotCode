@@ -20,7 +20,7 @@ public class DefaultMode extends AutoModeBase {
   public void queueTasks() {
     queueTask(new ParallelTask(
         new IntakeTask(IntakeState.NONE, PivotTarget.STOW),
-        new ShooterTask(0.6),
+        new ShooterTask(3000),
         new WaitTask(2.0)));
 
     queueTask(new ParallelTask(
@@ -46,7 +46,7 @@ public class DefaultMode extends AutoModeBase {
     queueTask(new ParallelTask(
         new IntakeTask(IntakeState.NONE, PivotTarget.STOW),
         new WaitTask(2.0),
-        new ShooterTask(0.0)));
+        new ShooterTask(0)));
 
     queueTask(new BrakeTask());
   }

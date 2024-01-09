@@ -21,6 +21,7 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Subsystem;
+import frc.robot.subsystems.leds.LEDs;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -46,6 +47,7 @@ public class Robot extends TimedRobot {
   private final Drivetrain m_drive = Drivetrain.getInstance();
   private final Shooter m_shooter = Shooter.getInstance();
   private final Climber m_climber = Climber.getInstance();
+  public final LEDs m_leds = LEDs.getInstance();
 
   // Auto stuff
   private Task m_currentTask;
@@ -62,6 +64,7 @@ public class Robot extends TimedRobot {
     m_allSubsystems.add(m_drive);
     m_allSubsystems.add(m_shooter);
     m_allSubsystems.add(m_climber);
+    m_allSubsystems.add(m_leds);
   }
 
   @Override
