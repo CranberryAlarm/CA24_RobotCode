@@ -21,7 +21,7 @@ public class Constants {
     public static final double k_pivotEncoderOffset = 0.166842; // Straight up, sketchy to reset to "up"
 
     // Pivot set point angles
-    public static final double k_pivotAngleGround = 62;
+    public static final double k_pivotAngleGround = 60;
     public static final double k_pivotAngleSource = 190;
     public static final double k_pivotAngleAmp = k_pivotAngleSource;
     public static final double k_pivotAngleStow = 270;
@@ -45,13 +45,16 @@ public class Constants {
   // Climber
   public static final int kClimberLeftMotorId = 14;
   public static final int kClimberRightMotorId = 15;
-  public static final double kClimberClimbSpeed = 60.0; // RPM
-  public static final double kClimberReleaseSpeed = -30.0; // RPM
-  public static final double kClimberGearRatio = 1.0/12.0;
-  public static final double kClimberP = 0.01;
+  public static final double kClimberClimbSpeed = 480.0; // RPM
+  public static final double kClimberReleaseSpeed = -480.0; // RPM
+
+  public static final double kClimberGearRatio = 1.0 / 12.0;
+
+  public static final double kClimberP = 0.001;
   public static final double kClimberI = 0.0;
   public static final double kClimberD = 0.0;
   public static final double kClimberMinOutput = -0.5;
+
   public static final double kClimberMaxOutput = 0.5;
 
   // Drivetrain

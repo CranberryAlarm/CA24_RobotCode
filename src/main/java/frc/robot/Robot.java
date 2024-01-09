@@ -167,6 +167,14 @@ public class Robot extends TimedRobot {
       m_climber.tiltLeft();
     } else if (m_operatorController.getWantsClimberTiltRight()) {
       m_climber.tiltRight();
+    } else {
+      m_climber.stopClimber();
+    }
+
+    if (m_operatorController.getWantsBrakeMode()) {
+      m_climber.setBrakeMode();
+    } else if (m_operatorController.getWantsCoastMode()) {
+      m_climber.setCoastMode();
     }
   }
 

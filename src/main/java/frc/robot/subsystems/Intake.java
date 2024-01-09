@@ -44,14 +44,13 @@ public class Intake extends Subsystem {
     mPivotMotor = new CANSparkMax(Constants.Intake.kPivotMotorId, MotorType.kBrushless);
     mPivotMotor.restoreFactoryDefaults();
     mPivotMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
-    mPivotMotor.setSmartCurrentLimit(5);
+    mPivotMotor.setSmartCurrentLimit(10);
 
     m_periodicIO = new PeriodicIO();
   }
 
   private static class PeriodicIO {
     // Automated control
-    // PivotTarget pivot_target = PivotTarget.SOURCE;
     PivotTarget pivot_target = PivotTarget.STOW;
     IntakeState intake_state = IntakeState.NONE;
 
@@ -236,8 +235,7 @@ public class Intake extends Subsystem {
     // close to it's target
     // Stop the intake and go to the SOURCE position
     if (m_periodicIO.pivot_target == PivotTarget.GROUND && getIntakeHasNote() && isPivotAtTarget()) {
-      // m_periodicIO.pivot_target = PivotTarget.STOW;
-      m_periodicIO.pivot_target = PivotTarget.SOURCE;
+      m_periodicIO.pivot_target = PivotTarget.STOW;
     }
   }
 

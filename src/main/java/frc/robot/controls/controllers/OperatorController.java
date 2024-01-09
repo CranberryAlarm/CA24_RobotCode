@@ -12,7 +12,7 @@ public class OperatorController extends FilteredController {
 
   // Axis
   private final double k_triggerActivationThreshold = 0.5;
-  
+
   public boolean getWantsTriggerSomething1() {
     return this.getFilteredAxis(3) > k_triggerActivationThreshold;
   }
@@ -22,22 +22,29 @@ public class OperatorController extends FilteredController {
   }
 
   // Buttons
-  
+  public boolean getWantsBrakeMode() {
+    return this.getRawButton(1);
+  }
+
+  public boolean getWantsCoastMode() {
+    return this.getRawButton(2);
+  }
+
   // D pad
 
   public boolean getWantsClimberRelease() {
-    return this.getHatDownPressed();
+    return this.getHatDown();
   }
 
   public boolean getWantsClimberTiltRight() {
-    return this.getHatRightPressed();
+    return this.getHatRight();
   }
 
   public boolean getWantsClimberClimb() {
-    return this.getHatUpPressed();
+    return this.getHatUp();
   }
 
   public boolean getWantsClimberTiltLeft() {
-    return this.getHatLeftPressed();
+    return this.getHatLeft();
   }
 }

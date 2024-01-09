@@ -1,10 +1,10 @@
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
-import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
@@ -42,7 +42,7 @@ public class Climber extends Subsystem {
     mLeftClimberPID.setI(Constants.kClimberI);
     mLeftClimberPID.setD(Constants.kClimberD);
     mLeftClimberPID.setOutputRange(Constants.kClimberMinOutput, Constants.kClimberMaxOutput);
-    
+
     mRightClimberPID = mRightClimberMotor.getPIDController();
     mRightClimberPID.setP(Constants.kClimberP);
     mRightClimberPID.setI(Constants.kClimberI);
@@ -53,7 +53,6 @@ public class Climber extends Subsystem {
     mLeftClimberEncoder.setPositionConversionFactor(Constants.kClimberGearRatio);
     mLeftClimberEncoder.setVelocityConversionFactor(Constants.kClimberGearRatio);
 
-    
     mRightClimberEncoder = mRightClimberMotor.getEncoder();
     mRightClimberEncoder.setPositionConversionFactor(Constants.kClimberGearRatio);
     mRightClimberEncoder.setVelocityConversionFactor(Constants.kClimberGearRatio);
@@ -61,7 +60,8 @@ public class Climber extends Subsystem {
     mLeftClimberMotor.setIdleMode(CANSparkMax.IdleMode.kCoast);
     mRightClimberMotor.setIdleMode(CANSparkMax.IdleMode.kCoast);
 
-    mLeftClimberMotor.setInverted(true); // TODO maybe the right one?
+    mLeftClimberMotor.setInverted(false);
+    mRightClimberMotor.setInverted(true);
   }
 
   private static class PeriodicIO {
