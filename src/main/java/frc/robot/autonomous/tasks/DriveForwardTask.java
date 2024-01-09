@@ -18,7 +18,7 @@ public class DriveForwardTask extends Task {
   public DriveForwardTask(double distance, double speed) {
     m_drive = Drivetrain.getInstance();
     m_targetDistance = distance;
-    m_speed = speed;
+    m_speed = -speed; // Intentionally negative, because we want to drive forward
   }
 
   @Override
