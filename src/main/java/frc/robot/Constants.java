@@ -42,6 +42,12 @@ public class Constants {
   public static final int kShooterLeftMotorId = 12;
   public static final int kShooterRightMotorId = 13;
 
+  public static final double kShooterP = 0.001;
+  public static final double kShooterI = 0.0;
+  public static final double kShooterD = 0.0;
+  public static final double kShooterMinOutput = -0.8;
+  public static final double kShooterMaxOutput = 0.8;
+
   // Climber
   public static final int kClimberLeftMotorId = 14;
   public static final int kClimberRightMotorId = 15;

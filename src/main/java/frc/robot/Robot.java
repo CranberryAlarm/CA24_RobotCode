@@ -130,13 +130,13 @@ public class Robot extends TimedRobot {
 
     // Shooter variable speed
     if (m_driverController.getWantsMoreSpeed()) {
-      speed += .01;
+      speed += 50;
     } else if (m_driverController.getWantsLessSpeed()) {
-      speed -= .01;
+      speed -= 50;
     } else if (m_driverController.getWantsShooterStop()) {
       speed = 0;
     }
-    speed = MathUtil.clamp(speed, -1, 1);
+    speed = MathUtil.clamp(speed, -6000, 6000);
     m_shooter.setSpeed(speed);
 
     // Intake

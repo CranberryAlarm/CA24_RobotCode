@@ -2,6 +2,9 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.ControlType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
@@ -22,20 +25,43 @@ public class Shooter extends Subsystem {
   private CANSparkFlex mLeftShooterMotor;
   private CANSparkFlex mRightShooterMotor;
 
+  private SparkPIDController mLeftShooterPID;
+  private SparkPIDController mRightShooterPID;
+
+  private RelativeEncoder mLeftShooterEncoder;
+  private RelativeEncoder mRightShooterEncoder;
+
   private Shooter() {
     mPeriodicIO = new PeriodicIO();
 
     mLeftShooterMotor = new CANSparkFlex(Constants.kShooterLeftMotorId, MotorType.kBrushless);
     mRightShooterMotor = new CANSparkFlex(Constants.kShooterRightMotorId, MotorType.kBrushless);
 
+    mLeftShooterPID = mLeftShooterMotor.getPIDController();
+    mLeftShooterPID.setP(Constants.kShooterP);
+    mLeftShooterPID.setI(Constants.kShooterI);
+    mLeftShooterPID.setD(Constants.kShooterD);
+    mLeftShooterPID.setOutputRange(Constants.kShooterMinOutput, Constants.kShooterMaxOutput);
+
+    mRightShooterPID = mRightShooterMotor.getPIDController();
+    mRightShooterPID.setP(Constants.kShooterP);
+    mRightShooterPID.setI(Constants.kShooterI);
+    mRightShooterPID.setD(Constants.kShooterD);
+    mRightShooterPID.setOutputRange(Constants.kShooterMinOutput, Constants.kShooterMaxOutput);
+
+    mLeftShooterEncoder = mLeftShooterMotor.getEncoder();
+    mRightShooterEncoder = mRightShooterMotor.getEncoder();
+
     mLeftShooterMotor.setIdleMode(CANSparkFlex.IdleMode.kCoast);
     mRightShooterMotor.setIdleMode(CANSparkFlex.IdleMode.kCoast);
 
     mLeftShooterMotor.setInverted(true);
+    mRightShooterMotor.setInverted(false);
+
   }
 
   private static class PeriodicIO {
-    double shooter_speed = 0.0;
+    double shooter_rpm = 0.0;
   }
 
   /*-------------------------------- Generic Subsystem Functions --------------------------------*/
@@ -46,8 +72,8 @@ public class Shooter extends Subsystem {
 
   @Override
   public void writePeriodicOutputs() {
-    mLeftShooterMotor.set(mPeriodicIO.shooter_speed);
-    mRightShooterMotor.set(mPeriodicIO.shooter_speed);
+    mLeftShooterPID.setReference(mPeriodicIO.shooter_rpm, ControlType.kVelocity);
+    mRightShooterPID.setReference(mPeriodicIO.shooter_rpm, ControlType.kVelocity);
   }
 
   @Override
@@ -57,7 +83,9 @@ public class Shooter extends Subsystem {
 
   @Override
   public void outputTelemetry() {
-    SmartDashboard.putNumber("Shooter speed:", mPeriodicIO.shooter_speed);
+    SmartDashboard.putNumber("Shooter speed (RPM):", mPeriodicIO.shooter_rpm);
+    SmartDashboard.putNumber("Shooter left speed:", mLeftShooterEncoder.getVelocity());
+    SmartDashboard.putNumber("Shooter right speed:", mRightShooterEncoder.getVelocity());
   }
 
   @Override
@@ -66,12 +94,12 @@ public class Shooter extends Subsystem {
 
   /*---------------------------------- Custom Public Functions ----------------------------------*/
 
-  public void setSpeed(double speed) {
-    mPeriodicIO.shooter_speed = speed;
+  public void setSpeed(double rpm) {
+    mPeriodicIO.shooter_rpm = rpm;
   }
 
   public void stopShooter() {
-    mPeriodicIO.shooter_speed = 0.0;
+    mPeriodicIO.shooter_rpm = 0.0;
   }
 
   /*---------------------------------- Custom Private Functions ---------------------------------*/
