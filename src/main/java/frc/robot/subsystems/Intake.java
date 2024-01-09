@@ -13,11 +13,9 @@ import frc.robot.Constants;
 import frc.robot.Helpers;
 
 public class Intake extends Subsystem {
-
-  // New test PID values
-  private static final double k_pivotMotorP = 0.04;
+  private static final double k_pivotMotorP = 0.12;
   private static final double k_pivotMotorI = 0.0;
-  private static final double k_pivotMotorD = 0.0;
+  private static final double k_pivotMotorD = 0.001;
 
   private final PIDController m_pivotPID = new PIDController(k_pivotMotorP, k_pivotMotorI, k_pivotMotorD);
 
@@ -41,7 +39,6 @@ public class Intake extends Subsystem {
   private Intake() {
     mIntakeMotor = new CANSparkMax(Constants.Intake.kIntakeMotorId, MotorType.kBrushless);
     mIntakeMotor.restoreFactoryDefaults();
-    // mIntakeMotor.setInverted(true);
     mIntakeMotor.setIdleMode(CANSparkMax.IdleMode.kCoast);
 
     mPivotMotor = new CANSparkMax(Constants.Intake.kPivotMotorId, MotorType.kBrushless);
@@ -49,16 +46,12 @@ public class Intake extends Subsystem {
     mPivotMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
     mPivotMotor.setSmartCurrentLimit(30);
 
-    // m_pivotPID.enableContinuousInput(0, 360);
-
-    // TODO; Figure out how this actually works
-    // m_pivotEncoder.setPositionOffset(Constants.Intake.k_pivotEncoderOffset);
-
     m_periodicIO = new PeriodicIO();
   }
 
   private static class PeriodicIO {
     // Automated control
+    // PivotTarget pivot_target = PivotTarget.SOURCE;
     PivotTarget pivot_target = PivotTarget.STOW;
     IntakeState intake_state = IntakeState.NONE;
 
@@ -234,6 +227,7 @@ public class Intake extends Subsystem {
     // close to it's target
     // Stop the intake and go to the SOURCE position
     if (m_periodicIO.pivot_target == PivotTarget.GROUND && getIntakeHasNote() && isPivotAtTarget()) {
+      // m_periodicIO.pivot_target = PivotTarget.STOW;
       m_periodicIO.pivot_target = PivotTarget.SOURCE;
     }
   }
