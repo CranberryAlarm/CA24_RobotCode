@@ -126,20 +126,20 @@ public class Robot extends TimedRobot {
     // mathematics). Xbox controllers return positive values when you pull to
     // the right by default.
     m_drive.slowMode(m_driverController.getWantsSlowMode());
-    // m_drive.speedMode(m_driverController.getWantsSpeedMode());
+    m_drive.speedMode(m_driverController.getWantsSpeedMode());
     double rot = -m_rotLimiter.calculate(-m_driverController.getTurnAxis()) *
         Drivetrain.kMaxAngularSpeed;
 
     m_drive.drive(xSpeed, rot);
 
     // Shooter variable speed
-    if (m_driverController.getWantsMoreSpeed()) {
+    if (m_driverController.getWantsMoreSpeed() || m_operatorController.getWantsMoreSpeed()) {
       m_leds.setColor(Color.kPink);
       speed = 3000;
-    } else if (m_driverController.getWantsLessSpeed()) {
+    } else if (m_driverController.getWantsLessSpeed() || m_operatorController.getWantsLessSpeed()) {
       m_leds.setColor(Color.kOrange);
       speed = 430;
-    } else if (m_driverController.getWantsShooterStop()) {
+    } else if (m_driverController.getWantsShooterStop() || m_operatorController.getWantsShooterStop()) {
       m_leds.defaultLEDS();
       speed = 0;
     }

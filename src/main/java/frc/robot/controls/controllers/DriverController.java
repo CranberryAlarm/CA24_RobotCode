@@ -68,8 +68,8 @@ public class DriverController extends FilteredController {
     return this.getRawButton(5);
   }
 
-  public double getBoostScaler() {
-    return this.getFilteredAxis(2);
+  public boolean getWantsSpeedMode() {
+    return this.getFilteredAxis(2) > k_triggerActivationThreshold;
   }
 
   public boolean getWantsSlowMode() {

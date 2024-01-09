@@ -30,6 +30,18 @@ public class OperatorController extends FilteredController {
     return this.getRawButton(2);
   }
 
+  public boolean getWantsMoreSpeed() {
+    return this.getRawButtonPressed(6);
+  }
+
+  public boolean getWantsLessSpeed() {
+    return this.getRawButtonPressed(5);
+  }
+
+  public boolean getWantsShooterStop() {
+    return this.getRawButtonPressed(4);
+  }
+
   // D pad
 
   public boolean getWantsClimberRelease() {
