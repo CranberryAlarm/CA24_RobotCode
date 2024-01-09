@@ -14,7 +14,7 @@ public class Constants {
     public static final int kPivotMotorId = 10;
 
     // DIO
-    public static final int k_pivotEncoderId = 0;
+    public static final int k_pivotEncoderId = 3;
     public static final int k_intakeLimitSwitchId = 1;
 
     // Absolute encoder offset
