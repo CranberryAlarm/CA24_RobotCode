@@ -10,6 +10,7 @@ import java.util.List;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.autonomous.AutoChooser;
 import frc.robot.autonomous.AutoRunner;
 import frc.robot.autonomous.tasks.Task;
@@ -133,10 +134,13 @@ public class Robot extends TimedRobot {
 
     // Shooter variable speed
     if (m_driverController.getWantsMoreSpeed()) {
+      m_leds.setColor(Color.kPink);
       speed = 3000;
     } else if (m_driverController.getWantsLessSpeed()) {
+      m_leds.setColor(Color.kOrange);
       speed = 430;
     } else if (m_driverController.getWantsShooterStop()) {
+      m_leds.defaultLEDS();
       speed = 0;
     }
     speed = MathUtil.clamp(speed, -6000, 6000);
@@ -183,6 +187,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledInit() {
+    m_leds.rainbow();
     speed = 0;
     m_allSubsystems.forEach(subsystem -> subsystem.stop());
   }

@@ -9,8 +9,10 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.Constants;
 import frc.robot.Helpers;
+import frc.robot.subsystems.leds.LEDs;
 
 public class Intake extends Subsystem {
   private static final double k_pivotMotorP = 0.12;
@@ -21,6 +23,8 @@ public class Intake extends Subsystem {
 
   private final DutyCycleEncoder m_pivotEncoder = new DutyCycleEncoder(Constants.Intake.k_pivotEncoderId);
   private final DigitalInput m_IntakeLimitSwitch = new DigitalInput(Constants.Intake.k_intakeLimitSwitchId);
+
+  public final LEDs m_leds = LEDs.getInstance();
 
   /*-------------------------------- Private instance variables ---------------------------------*/
   private static Intake mInstance;
@@ -185,6 +189,7 @@ public class Intake extends Subsystem {
   // Pivot helper functions
   public void goToGround() {
     m_periodicIO.pivot_target = PivotTarget.GROUND;
+    m_leds.setColor(Color.kYellow);
   }
 
   public void goToSource() {
@@ -236,6 +241,7 @@ public class Intake extends Subsystem {
     // Stop the intake and go to the SOURCE position
     if (m_periodicIO.pivot_target == PivotTarget.GROUND && getIntakeHasNote() && isPivotAtTarget()) {
       m_periodicIO.pivot_target = PivotTarget.STOW;
+      m_leds.setColor(Color.kGreen);
     }
   }
 
