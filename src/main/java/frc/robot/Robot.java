@@ -10,6 +10,9 @@ import java.util.List;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.TimedRobot;
+import frc.robot.autonomous.AutoChooser;
+import frc.robot.autonomous.AutoRunner;
+import frc.robot.autonomous.tasks.Task;
 import frc.robot.controls.controllers.DriverController;
 import frc.robot.controls.controllers.OperatorController;
 import frc.robot.subsystems.Compressor;
@@ -42,6 +45,11 @@ public class Robot extends TimedRobot {
   private final Drivetrain m_drive = Drivetrain.getInstance();
   private final Shooter m_shooter = Shooter.getInstance();
 
+  // Auto stuff
+  private Task m_currentTask;
+  private AutoRunner m_autoRunner = AutoRunner.getInstance();
+  private AutoChooser m_autoChooser = new AutoChooser();
+
   /**
    * This function is run when the robot is first started up.
    */
@@ -63,10 +71,34 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+    m_autoRunner.setAutoMode(m_autoChooser.getSelectedAuto());
+    m_currentTask = m_autoRunner.getNextTask();
+
+    // Start the first task
+    if (m_currentTask != null) {
+      m_currentTask.start();
+    }
   }
 
   @Override
   public void autonomousPeriodic() {
+    // If there is a current task, run it
+    if (m_currentTask != null) {
+      // Run the current task
+      m_currentTask.update();
+      m_currentTask.updateSim();
+
+      // If the current task is finished, get the next task
+      if (m_currentTask.isFinished()) {
+        m_currentTask.done();
+        m_currentTask = m_autoRunner.getNextTask();
+
+        // Start the next task
+        if (m_currentTask != null) {
+          m_currentTask.start();
+        }
+      }
+    }
   }
 
   @Override
@@ -92,26 +124,6 @@ public class Robot extends TimedRobot {
         Drivetrain.kMaxAngularSpeed;
 
     m_drive.drive(xSpeed, rot);
-
-    // if (m_driverController.getShooterAxis() > 0.1) {
-    // // m_shooter.setSpeed(m_driverController.getShooterAxis());
-    // m_shooter.setSpeed(0.15);
-    // } else {
-    // m_shooter.stopShooter();
-    // }
-
-    // Shooter fixed speed
-    // if (m_driverController.getRawButton(1)) {
-    // m_shooter.setSpeed(0.10);
-    // } else if (m_driverController.getRawButton(2)) {
-    // m_shooter.setSpeed(0.15);
-    // } else if (m_driverController.getRawButton(3)) {
-    // m_shooter.setSpeed(0.20);
-    // } else if (m_driverController.getRawButton(4)) {
-    // m_shooter.setSpeed(0.80);
-    // } else {
-    // m_shooter.setSpeed(0);
-    // }
 
     // Shooter variable speed
     if (m_driverController.getWantsMoreSpeed()) {

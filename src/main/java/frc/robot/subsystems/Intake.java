@@ -44,7 +44,7 @@ public class Intake extends Subsystem {
     mPivotMotor = new CANSparkMax(Constants.Intake.kPivotMotorId, MotorType.kBrushless);
     mPivotMotor.restoreFactoryDefaults();
     mPivotMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
-    mPivotMotor.setSmartCurrentLimit(30);
+    mPivotMotor.setSmartCurrentLimit(5);
 
     m_periodicIO = new PeriodicIO();
   }
@@ -85,6 +85,11 @@ public class Intake extends Subsystem {
     // Pivot control
     double pivot_angle = pivotTargetToAngle(m_periodicIO.pivot_target);
     m_periodicIO.intake_pivot_power = m_pivotPID.calculate(getPivotAngleDegrees(), pivot_angle);
+
+    // If the pivot is at exactly 0.0, it's probably not connected, so disable it
+    if (m_pivotEncoder.get() == 0.0) {
+      m_periodicIO.intake_pivot_power = 0.0;
+    }
 
     // Intake control
     m_periodicIO.intake_power = intakeStateToSpeed(m_periodicIO.intake_state);
@@ -219,6 +224,10 @@ public class Intake extends Subsystem {
 
   public void setState(IntakeState state) {
     m_periodicIO.intake_state = state;
+  }
+
+  public void setPivotTarget(PivotTarget target) {
+    m_periodicIO.pivot_target = target;
   }
 
   /*---------------------------------- Custom Private Functions ---------------------------------*/

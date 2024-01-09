@@ -3,6 +3,9 @@ package frc.robot.autonomous.modes;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.autonomous.tasks.BrakeTask;
+import frc.robot.autonomous.tasks.ParallelTask;
+import frc.robot.autonomous.tasks.ShooterTask;
+import frc.robot.autonomous.tasks.WaitTask;
 
 public class DefaultMode extends AutoModeBase {
   @Override
@@ -11,9 +14,9 @@ public class DefaultMode extends AutoModeBase {
   }
 
   public void queueTasks() {
-    // queueTask(new ParallelTask(
-    // new PointForwardTask(),
-    // new WaitTask(0.5)));
+    queueTask(new ParallelTask(
+        new ShooterTask(0.6),
+        new WaitTask(0.5)));
 
     // queueTask(new
     // ArmTrajectoryTask(Constants.Arm.Preset.SCORE_HIGH_CUBE.getPose()));
