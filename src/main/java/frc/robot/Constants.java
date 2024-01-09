@@ -9,19 +9,24 @@ public class Constants {
   }
 
   public static class Intake {
+    // Motors
     public static final int kIntakeMotorId = 9;
     public static final int kPivotMotorId = 10;
 
-    public static final int k_pivotEncoderId = 0; // DIO
+    // DIO
+    public static final int k_pivotEncoderId = 0;
+    public static final int k_intakeLimitSwitchId = 1;
 
-    // public static final double k_pivotEncoderOffset = 0.4332; // Stowed on the
-    // hard stop inside the robot
-    public static final double k_pivotEncoderOffset = 0.166842; // Straight up
+    // Absolute encoder offset
+    public static final double k_pivotEncoderOffset = 0.166842; // Straight up, sketchy to reset to "up"
 
+    // Pivot set point angles
     public static final double k_pivotAngleGround = 56;
     public static final double k_pivotAngleSource = 190;
-    public static final double k_pivotAngleStow = 270; // Stowed inside the robot
+    public static final double k_pivotAngleAmp = k_pivotAngleSource;
+    public static final double k_pivotAngleStow = 270;
 
+    // Intake speeds
     public static final double k_intakeSpeed = 0.7;
     public static final double k_ejectSpeed = -0.45;
     public static final double k_feedShooterSpeed = -0.5;

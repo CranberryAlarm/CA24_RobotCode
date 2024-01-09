@@ -127,15 +127,15 @@ public class Robot extends TimedRobot {
     // Intake
     if (m_driverController.getWantsFullIntake()) {
       m_intake.intake();
-      m_intake.deploy();
+      m_intake.goToGround();
     } else if (m_driverController.getWantsIntake()) {
       m_intake.intake();
     } else if (m_driverController.getWantsEject()) {
       m_intake.eject();
     } else if (m_driverController.getWantsSource()) {
-      m_intake.source();
+      m_intake.goToSource();
     } else if (m_driverController.getWantsStow()) {
-      m_intake.stow();
+      m_intake.goToStow();
     } else {
       m_intake.stopIntake();
     }
