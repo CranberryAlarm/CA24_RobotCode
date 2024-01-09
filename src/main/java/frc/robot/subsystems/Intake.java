@@ -77,6 +77,9 @@ public class Intake extends Subsystem {
 
   @Override
   public void periodic() {
+    checkAutoTasks();
+
+    // Set the pivot power based on the PID
     double pivot_angle = pivotTargetToAngle(m_periodicIO.pivot_target);
     m_periodicIO.intake_pivot_power = m_pivotPID.calculate(getPivotAngleDegrees(), pivot_angle);
   }
@@ -182,4 +185,17 @@ public class Intake extends Subsystem {
   }
 
   /*---------------------------------- Custom Private Functions ---------------------------------*/
+  private void checkAutoTasks() {
+    // If the intake is set to GROUND, and the intake has a note, and the pivot is
+    // close to it's target
+    // Stop the intake and go to the SOURCE position
+    if (m_periodicIO.pivot_target == PivotTarget.GROUND && getIntakeHasNote() && isPivotAtTarget()) {
+      m_periodicIO.pivot_target = PivotTarget.SOURCE;
+      stopIntake();
+    }
+  }
+
+  private boolean isPivotAtTarget() {
+    return Math.abs(getPivotAngleDegrees() - pivotTargetToAngle(m_periodicIO.pivot_target)) < 5;
+  }
 }
