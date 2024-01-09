@@ -42,9 +42,11 @@ public class Constants {
   public static final int kShooterLeftMotorId = 12;
   public static final int kShooterRightMotorId = 13;
 
-  public static final double kShooterP = 0.001;
+  public static final double kShooterP = 0.00005;
   public static final double kShooterI = 0.0;
   public static final double kShooterD = 0.0;
+  public static final double kShooterFF = 0.0002;
+
   public static final double kShooterMinOutput = -0.8;
   public static final double kShooterMaxOutput = 0.8;
 
@@ -70,14 +72,12 @@ public class Constants {
   public static final int kDrivetrainBRMotorId = 8;
 
   public static class Field {
-    // All dimensions from Figure 5-16 in the manual
-    // public static final double k_lowGoalX = 22.75; // Inches
-    // public static final double k_lowGoalHeight = 34; // Inches
-
-    // public static final double k_highGoalX = 39.75; // Inches
-    // public static final double k_highGoalHeight = 46; // Inches
-
     public static final double k_width = Units.feetToMeters(54.0);
     public static final double k_length = Units.feetToMeters(27.0);
+  }
+
+  public static class LEDs {
+    public static final int k_PWMId = 0;
+    public static final int k_totalLength = 300;
   }
 }

@@ -1,10 +1,10 @@
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
-import com.revrobotics.CANSparkBase.ControlType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
@@ -41,12 +41,14 @@ public class Shooter extends Subsystem {
     mLeftShooterPID.setP(Constants.kShooterP);
     mLeftShooterPID.setI(Constants.kShooterI);
     mLeftShooterPID.setD(Constants.kShooterD);
+    mLeftShooterPID.setFF(Constants.kShooterFF);
     mLeftShooterPID.setOutputRange(Constants.kShooterMinOutput, Constants.kShooterMaxOutput);
 
     mRightShooterPID = mRightShooterMotor.getPIDController();
     mRightShooterPID.setP(Constants.kShooterP);
     mRightShooterPID.setI(Constants.kShooterI);
     mRightShooterPID.setD(Constants.kShooterD);
+    mRightShooterPID.setFF(Constants.kShooterFF);
     mRightShooterPID.setOutputRange(Constants.kShooterMinOutput, Constants.kShooterMaxOutput);
 
     mLeftShooterEncoder = mLeftShooterMotor.getEncoder();
