@@ -15,6 +15,7 @@ import frc.robot.autonomous.AutoRunner;
 import frc.robot.autonomous.tasks.Task;
 import frc.robot.controls.controllers.DriverController;
 import frc.robot.controls.controllers.OperatorController;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Compressor;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
@@ -44,6 +45,7 @@ public class Robot extends TimedRobot {
   private final Compressor m_compressor = Compressor.getInstance();
   private final Drivetrain m_drive = Drivetrain.getInstance();
   private final Shooter m_shooter = Shooter.getInstance();
+  private final Climber m_climber = Climber.getInstance();
 
   // Auto stuff
   private Task m_currentTask;
@@ -59,6 +61,7 @@ public class Robot extends TimedRobot {
     m_allSubsystems.add(m_compressor);
     m_allSubsystems.add(m_drive);
     m_allSubsystems.add(m_shooter);
+    m_allSubsystems.add(m_climber);
   }
 
   @Override
@@ -153,6 +156,17 @@ public class Robot extends TimedRobot {
       m_intake.goToStow();
     } else {
       m_intake.stopIntake();
+    }
+
+    // Climber
+    if (m_operatorController.getWantsClimberClimb()) {
+      m_climber.climb();
+    } else if (m_operatorController.getWantsClimberRelease()) {
+      m_climber.release();
+    } else if (m_operatorController.getWantsClimberTiltLeft()) {
+      m_climber.tiltLeft();
+    } else if (m_operatorController.getWantsClimberTiltRight()) {
+      m_climber.tiltRight();
     }
   }
 

@@ -12,57 +12,32 @@ public class OperatorController extends FilteredController {
 
   // Axis
   private final double k_triggerActivationThreshold = 0.5;
-
-  public double getHorizontalChange(double strength) {
-    return -this.getFilteredAxis(0) * strength;
-  }
-
-  public double getVerticalChange(double strength) {
-    return -this.getFilteredAxis(5) * strength;
-  }
-
-  public boolean getWantsGripToggle() {
-    return this.getRawButtonPressed(5);
-  }
   
-  public boolean getWantsClockwise() {
+  public boolean getWantsTriggerSomething1() {
     return this.getFilteredAxis(3) > k_triggerActivationThreshold;
   }
 
-  public boolean getWantsCounterClockwise() {
+  public boolean getWantsTriggerSomething2() {
     return this.getFilteredAxis(2) > k_triggerActivationThreshold;
   }
 
   // Buttons
-  public boolean getWantsGroundPickup() {
-    return this.getRawButtonPressed(1);
-  }
+  
+  // D pad
 
-  public boolean getWantsHome() {
-    return this.getRawButtonPressed(3);
-  }
-
-  public boolean getWantsLowScore() {
+  public boolean getWantsClimberRelease() {
     return this.getHatDownPressed();
   }
 
-  public boolean getWantsMidScore() {
+  public boolean getWantsClimberTiltRight() {
     return this.getHatRightPressed();
   }
 
-  public boolean getWantsHighScore() {
+  public boolean getWantsClimberClimb() {
     return this.getHatUpPressed();
   }
 
-  public boolean getWantsGroundScore() {
+  public boolean getWantsClimberTiltLeft() {
     return this.getHatLeftPressed();
-  }
-
-  public boolean getWantsSomething1() {
-    return this.getRawButton(8);
-  }
-
-  public boolean getWantsSomething2() {
-    return this.getRawButtonPressed(6);
   }
 }
