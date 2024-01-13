@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.2305354471820058,
-        "y": 5.54
+        "x": 1.23,
+        "y": 5.540087394989604
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.8405354471820057,
-        "y": 5.54
+        "x": 1.8399999999999999,
+        "y": 5.540087394989604
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "BlueSubStart"
     },
     {
       "anchor": {

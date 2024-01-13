@@ -15,7 +15,7 @@ import frc.robot.subsystems.Intake.PivotTarget;
 public class PPTestMode extends AutoModeBase {
   @Override
   public Pose2d getBlueStartingPosition() {
-    return new Pose2d(2.374, 5.636, Rotation2d.fromDegrees(0));
+    return new Pose2d(1.23, 5.54, Rotation2d.fromDegrees(0));
   }
 
   public void queueTasks() {

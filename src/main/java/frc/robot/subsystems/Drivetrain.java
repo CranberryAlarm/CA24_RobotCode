@@ -26,9 +26,9 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
+import frc.robot.simulation.Field;
 import frc.robot.simulation.SimulatableCANSparkMax;
 
 public class Drivetrain extends Subsystem {
@@ -79,7 +79,7 @@ public class Drivetrain extends Subsystem {
   // private final AnalogGyroSim mGyroSim = new AnalogGyroSim(mgyro);
   // private final EncoderSim mLeftEncoderSim = new EncoderSim(mleftEncoder);
   // private final EncoderSim mRightEncoderSim = new EncoderSim(mrightEncoder);
-  private final Field2d mFieldSim = new Field2d();
+  private final Field m_field = Field.getInstance();
   private final LinearSystem<N2, N2, N2> mDrivetrainSystem = LinearSystemId.identifyDrivetrainSystem(1.98, 0.2, 1.5,
       0.3);
   private final DifferentialDrivetrainSim mDrivetrainSimulator = new DifferentialDrivetrainSim(
@@ -142,8 +142,6 @@ public class Drivetrain extends Subsystem {
         new ReplanningConfig(), // Default path replanning config. See the API for the options here
         this // Reference to this subsystem to set requirements
     );
-
-    SmartDashboard.putData("Field", mFieldSim);
   }
 
   private static class PeriodicIO {
@@ -267,7 +265,7 @@ public class Drivetrain extends Subsystem {
     mPeriodicIO.leftVoltage = leftOutput + leftFeedforward;
     mPeriodicIO.rightVoltage = rightOutput + rightFeedforward;
     updateOdometry();
-    mFieldSim.setRobotPose(getPose());
+    m_field.setRobotPose(getPose());
   }
 
   @Override
