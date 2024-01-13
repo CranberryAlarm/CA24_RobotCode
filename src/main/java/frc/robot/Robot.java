@@ -10,12 +10,14 @@ import java.util.List;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.autonomous.AutoChooser;
 import frc.robot.autonomous.AutoRunner;
 import frc.robot.autonomous.tasks.Task;
 import frc.robot.controls.controllers.DriverController;
 import frc.robot.controls.controllers.OperatorController;
+import frc.robot.simulation.Field;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Compressor;
 import frc.robot.subsystems.Drivetrain;
@@ -55,11 +57,17 @@ public class Robot extends TimedRobot {
   private AutoRunner m_autoRunner = AutoRunner.getInstance();
   private AutoChooser m_autoChooser = new AutoChooser();
 
+  // Simulation stuff
+  private final Field m_field = Field.getInstance();
+
   /**
    * This function is run when the robot is first started up.
    */
   @Override
   public void robotInit() {
+    SmartDashboard.putData("Field", m_field);
+
+    // Add all subsystems to the list
     m_allSubsystems.add(m_intake);
     m_allSubsystems.add(m_compressor);
     m_allSubsystems.add(m_drive);
@@ -74,6 +82,8 @@ public class Robot extends TimedRobot {
     m_allSubsystems.forEach(subsystem -> subsystem.writePeriodicOutputs());
     m_allSubsystems.forEach(subsystem -> subsystem.outputTelemetry());
     m_allSubsystems.forEach(subsystem -> subsystem.writeToLog());
+
+    updateSim();
   }
 
   @Override
@@ -214,5 +224,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void simulationPeriodic() {
+  }
+
+  private void updateSim() {
+    // Update the odometry in the sim.
+    m_field.setRobotPose(m_drive.getPose());
   }
 }
