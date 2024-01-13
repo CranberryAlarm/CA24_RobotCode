@@ -44,7 +44,7 @@ public class DriveForwardTask extends Task {
       double newX = currentPose.getX()
           - m_speed * (m_runningTimer.get() - m_lastTime) * Math.cos(currentPose.getRotation().getRadians());
       double newY = currentPose.getY()
-          + m_speed * (m_runningTimer.get() - m_lastTime) * Math.sin(currentPose.getRotation().getRadians());
+          - m_speed * (m_runningTimer.get() - m_lastTime) * Math.sin(currentPose.getRotation().getRadians());
 
       Pose2d newPose = new Pose2d(
           newX,
