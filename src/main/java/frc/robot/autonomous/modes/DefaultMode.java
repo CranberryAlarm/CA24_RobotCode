@@ -6,6 +6,7 @@ import frc.robot.autonomous.tasks.BrakeTask;
 import frc.robot.autonomous.tasks.DriveForwardTask;
 import frc.robot.autonomous.tasks.IntakeTask;
 import frc.robot.autonomous.tasks.ParallelTask;
+import frc.robot.autonomous.tasks.ShooterTask;
 import frc.robot.autonomous.tasks.WaitTask;
 import frc.robot.subsystems.Intake.IntakeState;
 import frc.robot.subsystems.Intake.PivotTarget;
@@ -13,7 +14,7 @@ import frc.robot.subsystems.Intake.PivotTarget;
 public class DefaultMode extends AutoModeBase {
   @Override
   public Pose2d getBlueStartingPosition() {
-    return new Pose2d(2.374, 5.636, Rotation2d.fromDegrees(45));
+    return new Pose2d(2.374, 5.636, Rotation2d.fromDegrees(0));
   }
 
   public void queueTasks() {

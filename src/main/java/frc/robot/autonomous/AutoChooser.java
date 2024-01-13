@@ -11,7 +11,8 @@ public class AutoChooser {
   private final SendableChooser<String> m_chooser = new SendableChooser<>();
 
   public AutoChooser() {
-    m_chooser.setDefaultOption("DEFAULT", "DEFAULT");
+    m_chooser.setDefaultOption("PP_TEST_MODE", "PP_TEST_MODE");
+    // m_chooser.setDefaultOption("DEFAULT", "DEFAULT");
 
     // Populate the chooser with all the available autos
     for (AutoMode mode : AutoRunner.AutoMode.values()) {
