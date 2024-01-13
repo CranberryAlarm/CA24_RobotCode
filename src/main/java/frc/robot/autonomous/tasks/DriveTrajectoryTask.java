@@ -21,6 +21,7 @@ public class DriveTrajectoryTask extends Task {
   private PathPlannerTrajectory m_autoTrajectory;
   private boolean m_isFinished = false;
   private String m_smartDashboardKey = "DriveTrajectoryTask/";
+  private PathPlannerPath m_autoPath = null;
 
   private final Timer m_runningTimer = new Timer();
   private PPRamseteController m_driveController;
@@ -28,7 +29,6 @@ public class DriveTrajectoryTask extends Task {
   public DriveTrajectoryTask(String pathName, double maxSpeed, double maxAcceleration) {
     m_drive = Drivetrain.getInstance();
     Path trajectoryPath = null;
-    PathPlannerPath m_autoPath = null;
 
     try {
       if (RobotBase.isReal()) {
@@ -41,10 +41,7 @@ public class DriveTrajectoryTask extends Task {
 
       System.out.println("Loading path from:\n" + trajectoryPath.toString());
       m_autoPath = PathPlannerPath.fromPathFile(pathName);
-      System.out.println(m_autoPath.numPoints());
-
-      // Set the initial Pose2d
-      m_drive.setPose(m_autoPath.getStartingDifferentialPose());
+      // System.out.println(m_autoPath.numPoints());
     } catch (Exception ex) {
       DriverStation.reportError("Unable to load PathPlanner trajectory: " + pathName, ex.getStackTrace());
       m_isFinished = true;
@@ -54,8 +51,6 @@ public class DriveTrajectoryTask extends Task {
         m_autoPath,
         new ChassisSpeeds(),
         m_drive.getPose().getRotation());
-
-    System.out.println(m_autoTrajectory);
 
     m_drive = Drivetrain.getInstance();
 
@@ -67,6 +62,9 @@ public class DriveTrajectoryTask extends Task {
   public void start() {
     m_runningTimer.reset();
     m_runningTimer.start();
+
+    // Set the initial Pose2d
+    m_drive.setPose(m_autoPath.getStartingDifferentialPose());
 
     m_drive.clearTurnPIDAccumulation();
     DriverStation.reportWarning("Running path for " + DriverStation.getAlliance().toString(), false);
