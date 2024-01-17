@@ -135,7 +135,7 @@ public class Robot extends TimedRobot {
     // Shooter variable speed
     if (m_driverController.getWantsMoreSpeed() || m_operatorController.getWantsMoreSpeed()) {
       m_leds.setColor(Color.kPink);
-      speed = 3000;
+      speed = 10000;
     } else if (m_driverController.getWantsLessSpeed() || m_operatorController.getWantsLessSpeed()) {
       m_leds.setColor(Color.kOrange);
       speed = 430;
@@ -143,7 +143,7 @@ public class Robot extends TimedRobot {
       m_leds.defaultLEDS();
       speed = 0;
     }
-    speed = MathUtil.clamp(speed, -6000, 6000);
+    speed = MathUtil.clamp(speed, -6000, 10000);
     m_shooter.setSpeed(speed);
 
     // Intake
