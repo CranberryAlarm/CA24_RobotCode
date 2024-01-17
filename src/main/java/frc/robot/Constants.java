@@ -39,7 +39,7 @@ public class Constants {
   // DIO
 
   // Shooter
-  public static final int kShooterLeftMotorId = 11;
+  public static final int kShooterLeftMotorId = 12;
   public static final int kShooterRightMotorId = 13;
 
   public static final double kShooterP = 0.00005;
