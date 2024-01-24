@@ -59,8 +59,8 @@ public class Intake extends Subsystem {
     IntakeState intake_state = IntakeState.NONE;
 
     // Manual control
-    double intake_pivot_power = 0.0;
-    double intake_power = 0.0;
+    double intake_pivot_voltage = 0.0;
+    double intake_speed = 0.0;
   }
 
   public enum PivotTarget {
@@ -87,29 +87,29 @@ public class Intake extends Subsystem {
 
     // Pivot control
     double pivot_angle = pivotTargetToAngle(m_periodicIO.pivot_target);
-    m_periodicIO.intake_pivot_power = m_pivotPID.calculate(getPivotAngleDegrees(), pivot_angle);
+    m_periodicIO.intake_pivot_voltage = m_pivotPID.calculate(getPivotAngleDegrees(), pivot_angle);
 
     // If the pivot is at exactly 0.0, it's probably not connected, so disable it
     if (m_pivotEncoder.get() == 0.0) {
-      m_periodicIO.intake_pivot_power = 0.0;
+      m_periodicIO.intake_pivot_voltage = 0.0;
     }
 
     // Intake control
-    m_periodicIO.intake_power = intakeStateToSpeed(m_periodicIO.intake_state);
+    m_periodicIO.intake_speed = intakeStateToSpeed(m_periodicIO.intake_state);
     SmartDashboard.putString("Intake State:", m_periodicIO.intake_state.toString());
   }
 
   @Override
   public void writePeriodicOutputs() {
-    mPivotMotor.setVoltage(m_periodicIO.intake_pivot_power);
+    mPivotMotor.setVoltage(m_periodicIO.intake_pivot_voltage);
 
-    mIntakeMotor.set(m_periodicIO.intake_power);
+    mIntakeMotor.set(m_periodicIO.intake_speed);
   }
 
   @Override
   public void stop() {
-    m_periodicIO.intake_pivot_power = 0.0;
-    m_periodicIO.intake_power = 0.0;
+    m_periodicIO.intake_pivot_voltage = 0.0;
+    m_periodicIO.intake_speed = 0.0;
   }
 
   @Override
@@ -120,7 +120,7 @@ public class Intake extends Subsystem {
     SmartDashboard.putNumber("Pivot Abs Enc (getPivotAngleDegrees):", getPivotAngleDegrees());
     SmartDashboard.putNumber("Pivot Setpoint:", pivotTargetToAngle(m_periodicIO.pivot_target));
 
-    SmartDashboard.putNumber("Pivot Power:", m_periodicIO.intake_pivot_power);
+    SmartDashboard.putNumber("Pivot Power:", m_periodicIO.intake_pivot_voltage);
     SmartDashboard.putNumber("Pivot Current:", mPivotMotor.getOutputCurrent());
 
     SmartDashboard.putBoolean("Intake Limit Switch:", getIntakeHasNote());
@@ -223,7 +223,7 @@ public class Intake extends Subsystem {
 
   public void stopIntake() {
     m_periodicIO.intake_state = IntakeState.NONE;
-    m_periodicIO.intake_power = 0.0;
+    m_periodicIO.intake_speed = 0.0;
   }
 
   public void setState(IntakeState state) {
