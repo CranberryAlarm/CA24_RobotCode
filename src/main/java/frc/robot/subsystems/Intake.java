@@ -54,11 +54,11 @@ public class Intake extends Subsystem {
   }
 
   private static class PeriodicIO {
-    // Automated control
+    // Input: Desired state
     PivotTarget pivot_target = PivotTarget.STOW;
     IntakeState intake_state = IntakeState.NONE;
 
-    // Manual control
+    // Output: Motor set values
     double intake_pivot_voltage = 0.0;
     double intake_speed = 0.0;
   }
