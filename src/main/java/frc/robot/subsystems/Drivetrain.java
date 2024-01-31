@@ -96,7 +96,7 @@ public class Drivetrain extends Subsystem {
   }
 
   public Drivetrain() {
-    mInstance.baseSmartDashboardKey = "Drivetrain";
+    super("Drivetrain");
 
     mGyro.reset();
 

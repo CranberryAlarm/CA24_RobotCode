@@ -34,7 +34,7 @@ public class Shooter extends Subsystem {
   private SlewRateLimiter mSpeedLimiter = new SlewRateLimiter(1000);
 
   private Shooter() {
-    mInstance.baseSmartDashboardKey = "Shooter";
+    super("Shooter");
 
     mPeriodicIO = new PeriodicIO();
 

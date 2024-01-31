@@ -40,7 +40,7 @@ public class Intake extends Subsystem {
   private CANSparkMax mPivotMotor;
 
   private Intake() {
-    mInstance.baseSmartDashboardKey = "Intake";
+    super("Intake");
 
     mIntakeMotor = new CANSparkMax(Constants.Intake.kIntakeMotorId, MotorType.kBrushless);
     mIntakeMotor.restoreFactoryDefaults();

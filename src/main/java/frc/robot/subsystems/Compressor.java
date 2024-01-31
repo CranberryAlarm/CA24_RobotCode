@@ -17,7 +17,7 @@ public class Compressor extends Subsystem {
   }
 
   private Compressor() {
-    m_instance.baseSmartDashboardKey = "Compressor";
+    super("Compressor");
 
     m_compressor = new edu.wpi.first.wpilibj.Compressor(PneumaticsModuleType.CTREPCM);
   }

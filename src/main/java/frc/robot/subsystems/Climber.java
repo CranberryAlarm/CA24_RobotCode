@@ -31,7 +31,7 @@ public class Climber extends Subsystem {
   private RelativeEncoder mRightClimberEncoder;
 
   private Climber() {
-    mInstance.baseSmartDashboardKey = "Climber";
+    super("Climber");
 
     mPeriodicIO = new PeriodicIO();
 

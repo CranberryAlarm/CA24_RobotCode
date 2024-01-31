@@ -5,6 +5,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public abstract class Subsystem extends SubsystemBase {
+  public Subsystem(String baseSmartDashboardKey) {
+    this.baseSmartDashboardKey = baseSmartDashboardKey;
+  }
+
   /**
    * Writes the relevant subsystem information to the log
    */
