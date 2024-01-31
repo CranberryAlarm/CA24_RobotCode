@@ -52,13 +52,13 @@ public class PPTestMode extends AutoModeBase {
 
     // // Drive to #3 and intake
     // queueTask(new ParallelTask(
-    // new DriveTrajectoryTask("SubLeftNote1", 1, 1),
+    // new DriveTrajectoryTask("SubLeftNote1", 2, 1),
     // new IntakeTask(IntakeState.INTAKE, PivotTarget.GROUND),
     // new WaitTask(0.1)));
 
     // // Drive to sub and stow
     // queueTask(new ParallelTask(
-    // new DriveTrajectoryTask("SubLeftNote2", 1, 1),
+    // new DriveTrajectoryTask("SubLeftNote2", 2, 1),
     // new IntakeTask(IntakeState.PULSE, PivotTarget.STOW),
     // new WaitTask(0.1)));
 
