@@ -6,7 +6,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import frc.robot.Constants;
 
 public class Shooter extends Subsystem {
@@ -31,11 +31,17 @@ public class Shooter extends Subsystem {
   private RelativeEncoder mLeftShooterEncoder;
   private RelativeEncoder mRightShooterEncoder;
 
+  private SlewRateLimiter mSpeedLimiter = new SlewRateLimiter(1000);
+
   private Shooter() {
+    super("Shooter");
+
     mPeriodicIO = new PeriodicIO();
 
     mLeftShooterMotor = new CANSparkFlex(Constants.kShooterLeftMotorId, MotorType.kBrushless);
     mRightShooterMotor = new CANSparkFlex(Constants.kShooterRightMotorId, MotorType.kBrushless);
+    mLeftShooterMotor.restoreFactoryDefaults();
+    mRightShooterMotor.restoreFactoryDefaults();
 
     mLeftShooterPID = mLeftShooterMotor.getPIDController();
     mLeftShooterPID.setP(Constants.kShooterP);
@@ -74,8 +80,9 @@ public class Shooter extends Subsystem {
 
   @Override
   public void writePeriodicOutputs() {
-    mLeftShooterPID.setReference(mPeriodicIO.shooter_rpm, ControlType.kVelocity);
-    mRightShooterPID.setReference(mPeriodicIO.shooter_rpm, ControlType.kVelocity);
+    double limitedSpeed = mSpeedLimiter.calculate(mPeriodicIO.shooter_rpm);
+    mLeftShooterPID.setReference(limitedSpeed, ControlType.kVelocity);
+    mRightShooterPID.setReference(limitedSpeed, ControlType.kVelocity);
   }
 
   @Override
@@ -85,9 +92,9 @@ public class Shooter extends Subsystem {
 
   @Override
   public void outputTelemetry() {
-    SmartDashboard.putNumber("Shooter speed (RPM):", mPeriodicIO.shooter_rpm);
-    SmartDashboard.putNumber("Shooter left speed:", mLeftShooterEncoder.getVelocity());
-    SmartDashboard.putNumber("Shooter right speed:", mRightShooterEncoder.getVelocity());
+    putNumber("Speed (RPM):", mPeriodicIO.shooter_rpm);
+    putNumber("Left speed:", mLeftShooterEncoder.getVelocity());
+    putNumber("Right speed:", mRightShooterEncoder.getVelocity());
   }
 
   @Override

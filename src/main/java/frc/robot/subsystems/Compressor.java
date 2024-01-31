@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Compressor extends Subsystem {
 
@@ -18,6 +17,8 @@ public class Compressor extends Subsystem {
   }
 
   private Compressor() {
+    super("Compressor");
+
     m_compressor = new edu.wpi.first.wpilibj.Compressor(PneumaticsModuleType.CTREPCM);
   }
 
@@ -37,7 +38,7 @@ public class Compressor extends Subsystem {
 
   @Override
   public void outputTelemetry() {
-    SmartDashboard.putNumber("Compressor/Pressure", m_compressor.getPressure());
+    putNumber("Pressure", m_compressor.getPressure());
   }
 
   @Override

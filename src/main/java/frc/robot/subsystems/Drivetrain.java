@@ -46,7 +46,7 @@ public class Drivetrain extends Subsystem {
   private static final double kTrackWidth = Units.inchesToMeters(22.0);
   private static final double kWheelRadius = Units.inchesToMeters(3.0);
   private static final double kGearRatio = 10.61;
-  private static final double kMetersPerRev = (2 * Math.PI * kWheelRadius) / kGearRatio;
+  private static final double kMetersPerRev = (2.0 * Math.PI * kWheelRadius) / kGearRatio;
 
   private final SimulatableCANSparkMax mLeftLeader = new SimulatableCANSparkMax(Constants.kDrivetrainFLMotorId,
       MotorType.kBrushless);
@@ -96,6 +96,8 @@ public class Drivetrain extends Subsystem {
   }
 
   public Drivetrain() {
+    super("Drivetrain");
+
     mGyro.reset();
 
     mLeftLeader.restoreFactoryDefaults();
@@ -287,12 +289,12 @@ public class Drivetrain extends Subsystem {
 
   @Override
   public void outputTelemetry() {
-    SmartDashboard.putNumber("leftVelocitySetPoint", mPeriodicIO.diffWheelSpeeds.leftMetersPerSecond);
-    SmartDashboard.putNumber("rightVelocitySetPoint", mPeriodicIO.diffWheelSpeeds.rightMetersPerSecond);
-    SmartDashboard.putNumber("leftVelocity", mLeftEncoder.getVelocity());
-    SmartDashboard.putNumber("rightVelocity", -mRightEncoder.getVelocity());
-    SmartDashboard.putNumber("leftMeters", mLeftEncoder.getPosition());
-    SmartDashboard.putNumber("rightMeters", -mRightEncoder.getPosition());
-    SmartDashboard.putNumber("Gyro", mGyro.getAngle());
+    putNumber("leftVelocitySetPoint", mPeriodicIO.diffWheelSpeeds.leftMetersPerSecond);
+    putNumber("rightVelocitySetPoint", mPeriodicIO.diffWheelSpeeds.rightMetersPerSecond);
+    putNumber("leftVelocity", mLeftEncoder.getVelocity());
+    putNumber("rightVelocity", -mRightEncoder.getVelocity());
+    putNumber("leftMeters", mLeftEncoder.getPosition());
+    putNumber("rightMeters", -mRightEncoder.getPosition());
+    putNumber("Gyro", mGyro.getAngle());
   }
 }

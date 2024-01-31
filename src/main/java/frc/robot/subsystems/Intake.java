@@ -8,7 +8,6 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.Constants;
 import frc.robot.Helpers;
@@ -41,6 +40,8 @@ public class Intake extends Subsystem {
   private CANSparkMax mPivotMotor;
 
   private Intake() {
+    super("Intake");
+
     mIntakeMotor = new CANSparkMax(Constants.Intake.kIntakeMotorId, MotorType.kBrushless);
     mIntakeMotor.restoreFactoryDefaults();
     mIntakeMotor.setIdleMode(CANSparkMax.IdleMode.kCoast);
@@ -54,13 +55,13 @@ public class Intake extends Subsystem {
   }
 
   private static class PeriodicIO {
-    // Automated control
+    // Input: Desired state
     PivotTarget pivot_target = PivotTarget.STOW;
     IntakeState intake_state = IntakeState.NONE;
 
-    // Manual control
-    double intake_pivot_power = 0.0;
-    double intake_power = 0.0;
+    // Output: Motor set values
+    double intake_pivot_voltage = 0.0;
+    double intake_speed = 0.0;
   }
 
   public enum PivotTarget {
@@ -87,43 +88,43 @@ public class Intake extends Subsystem {
 
     // Pivot control
     double pivot_angle = pivotTargetToAngle(m_periodicIO.pivot_target);
-    m_periodicIO.intake_pivot_power = m_pivotPID.calculate(getPivotAngleDegrees(), pivot_angle);
+    m_periodicIO.intake_pivot_voltage = m_pivotPID.calculate(getPivotAngleDegrees(), pivot_angle);
 
     // If the pivot is at exactly 0.0, it's probably not connected, so disable it
     if (m_pivotEncoder.get() == 0.0) {
-      m_periodicIO.intake_pivot_power = 0.0;
+      m_periodicIO.intake_pivot_voltage = 0.0;
     }
 
     // Intake control
-    m_periodicIO.intake_power = intakeStateToSpeed(m_periodicIO.intake_state);
-    SmartDashboard.putString("Intake State:", m_periodicIO.intake_state.toString());
+    m_periodicIO.intake_speed = intakeStateToSpeed(m_periodicIO.intake_state);
+    putString("State", m_periodicIO.intake_state.toString());
   }
 
   @Override
   public void writePeriodicOutputs() {
-    mPivotMotor.setVoltage(m_periodicIO.intake_pivot_power);
+    mPivotMotor.setVoltage(m_periodicIO.intake_pivot_voltage);
 
-    mIntakeMotor.set(m_periodicIO.intake_power);
+    mIntakeMotor.set(m_periodicIO.intake_speed);
   }
 
   @Override
   public void stop() {
-    m_periodicIO.intake_pivot_power = 0.0;
-    m_periodicIO.intake_power = 0.0;
+    m_periodicIO.intake_pivot_voltage = 0.0;
+    m_periodicIO.intake_speed = 0.0;
   }
 
   @Override
   public void outputTelemetry() {
-    SmartDashboard.putNumber("Intake speed:", intakeStateToSpeed(m_periodicIO.intake_state));
-    SmartDashboard.putNumber("Pivot Abs Enc (get):", m_pivotEncoder.get());
-    SmartDashboard.putNumber("Pivot Abs Enc (getAbsolutePosition):", m_pivotEncoder.getAbsolutePosition());
-    SmartDashboard.putNumber("Pivot Abs Enc (getPivotAngleDegrees):", getPivotAngleDegrees());
-    SmartDashboard.putNumber("Pivot Setpoint:", pivotTargetToAngle(m_periodicIO.pivot_target));
+    putNumber("Speed", intakeStateToSpeed(m_periodicIO.intake_state));
+    putNumber("Pivot/Abs Enc (get)", m_pivotEncoder.get());
+    putNumber("Pivot/Abs Enc (getAbsolutePosition)", m_pivotEncoder.getAbsolutePosition());
+    putNumber("Pivot/Abs Enc (getPivotAngleDegrees)", getPivotAngleDegrees());
+    putNumber("Pivot/Setpoint", pivotTargetToAngle(m_periodicIO.pivot_target));
 
-    SmartDashboard.putNumber("Pivot Power:", m_periodicIO.intake_pivot_power);
-    SmartDashboard.putNumber("Pivot Current:", mPivotMotor.getOutputCurrent());
+    putNumber("Pivot/Power", m_periodicIO.intake_pivot_voltage);
+    putNumber("Pivot/Current", mPivotMotor.getOutputCurrent());
 
-    SmartDashboard.putBoolean("Intake Limit Switch:", getIntakeHasNote());
+    putBoolean("Limit Switch", getIntakeHasNote());
   }
 
   @Override
@@ -223,7 +224,7 @@ public class Intake extends Subsystem {
 
   public void stopIntake() {
     m_periodicIO.intake_state = IntakeState.NONE;
-    m_periodicIO.intake_power = 0.0;
+    m_periodicIO.intake_speed = 0.0;
   }
 
   public void setState(IntakeState state) {

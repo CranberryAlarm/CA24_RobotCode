@@ -6,7 +6,6 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
 public class Climber extends Subsystem {
@@ -32,6 +31,8 @@ public class Climber extends Subsystem {
   private RelativeEncoder mRightClimberEncoder;
 
   private Climber() {
+    super("Climber");
+
     mPeriodicIO = new PeriodicIO();
 
     mLeftClimberMotor = new CANSparkMax(Constants.kClimberLeftMotorId, MotorType.kBrushless);
@@ -88,10 +89,10 @@ public class Climber extends Subsystem {
 
   @Override
   public void outputTelemetry() {
-    SmartDashboard.putNumber("Climber left speed setpoint:", mPeriodicIO.climber_left_speed);
-    SmartDashboard.putNumber("Climber left speed:", mLeftClimberEncoder.getVelocity());
-    SmartDashboard.putNumber("Climber right speed setpoint:", mPeriodicIO.climber_right_speed);
-    SmartDashboard.putNumber("Climber right speed:", mRightClimberEncoder.getVelocity());
+    putNumber("Left speed setpoint:", mPeriodicIO.climber_left_speed);
+    putNumber("Left speed:", mLeftClimberEncoder.getVelocity());
+    putNumber("Right speed setpoint:", mPeriodicIO.climber_right_speed);
+    putNumber("Right speed:", mRightClimberEncoder.getVelocity());
   }
 
   @Override
