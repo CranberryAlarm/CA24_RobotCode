@@ -96,6 +96,8 @@ public class Drivetrain extends Subsystem {
   }
 
   public Drivetrain() {
+    mInstance.baseSmartDashboardKey = "Drivetrain";
+
     mGyro.reset();
 
     mLeftLeader.restoreFactoryDefaults();
@@ -289,12 +291,12 @@ public class Drivetrain extends Subsystem {
 
   @Override
   public void outputTelemetry() {
-    SmartDashboard.putNumber("leftVelocitySetPoint", mPeriodicIO.diffWheelSpeeds.leftMetersPerSecond);
-    SmartDashboard.putNumber("rightVelocitySetPoint", mPeriodicIO.diffWheelSpeeds.rightMetersPerSecond);
-    SmartDashboard.putNumber("leftVelocity", mLeftEncoder.getVelocity());
-    SmartDashboard.putNumber("rightVelocity", -mRightEncoder.getVelocity());
-    SmartDashboard.putNumber("leftMeters", mLeftEncoder.getPosition());
-    SmartDashboard.putNumber("rightMeters", -mRightEncoder.getPosition());
-    SmartDashboard.putNumber("Gyro", mGyro.getAngle());
+    putNumber("leftVelocitySetPoint", mPeriodicIO.diffWheelSpeeds.leftMetersPerSecond);
+    putNumber("rightVelocitySetPoint", mPeriodicIO.diffWheelSpeeds.rightMetersPerSecond);
+    putNumber("leftVelocity", mLeftEncoder.getVelocity());
+    putNumber("rightVelocity", -mRightEncoder.getVelocity());
+    putNumber("leftMeters", mLeftEncoder.getPosition());
+    putNumber("rightMeters", -mRightEncoder.getPosition());
+    putNumber("Gyro", mGyro.getAngle());
   }
 }

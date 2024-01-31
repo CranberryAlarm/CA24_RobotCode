@@ -7,7 +7,6 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
 public class Shooter extends Subsystem {
@@ -35,6 +34,8 @@ public class Shooter extends Subsystem {
   private SlewRateLimiter mSpeedLimiter = new SlewRateLimiter(1000);
 
   private Shooter() {
+    mInstance.baseSmartDashboardKey = "Shooter";
+
     mPeriodicIO = new PeriodicIO();
 
     mLeftShooterMotor = new CANSparkFlex(Constants.kShooterLeftMotorId, MotorType.kBrushless);
@@ -91,9 +92,9 @@ public class Shooter extends Subsystem {
 
   @Override
   public void outputTelemetry() {
-    SmartDashboard.putNumber("Shooter speed (RPM):", mPeriodicIO.shooter_rpm);
-    SmartDashboard.putNumber("Shooter left speed:", mLeftShooterEncoder.getVelocity());
-    SmartDashboard.putNumber("Shooter right speed:", mRightShooterEncoder.getVelocity());
+    putNumber("Speed (RPM):", mPeriodicIO.shooter_rpm);
+    putNumber("Left speed:", mLeftShooterEncoder.getVelocity());
+    putNumber("Right speed:", mRightShooterEncoder.getVelocity());
   }
 
   @Override

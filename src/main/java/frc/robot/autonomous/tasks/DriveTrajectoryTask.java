@@ -17,7 +17,7 @@ public class DriveTrajectoryTask extends Task {
   private Drivetrain m_drive;
   private PathPlannerTrajectory m_autoTrajectory;
   private boolean m_isFinished = false;
-  private String m_smartDashboardKey = "DriveTrajectoryTask/";
+  private String m_smartDashboardKey = "DriveTrajectoryTask";
 
   private final Timer m_runningTimer = new Timer();
   private PPRamseteController m_driveController;
