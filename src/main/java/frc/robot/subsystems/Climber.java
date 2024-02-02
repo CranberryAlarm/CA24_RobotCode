@@ -58,8 +58,8 @@ public class Climber extends Subsystem {
     mRightClimberEncoder.setPositionConversionFactor(Constants.kClimberGearRatio);
     mRightClimberEncoder.setVelocityConversionFactor(Constants.kClimberGearRatio);
 
-    mLeftClimberMotor.setIdleMode(CANSparkMax.IdleMode.kCoast);
-    mRightClimberMotor.setIdleMode(CANSparkMax.IdleMode.kCoast);
+    mLeftClimberMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+    mRightClimberMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
 
     mLeftClimberMotor.setInverted(false);
     mRightClimberMotor.setInverted(true);

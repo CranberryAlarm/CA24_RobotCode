@@ -52,8 +52,6 @@ public class DriveTrajectoryTask extends Task {
         new ChassisSpeeds(),
         m_drive.getPose().getRotation());
 
-    m_drive = Drivetrain.getInstance();
-
     // https://docs.wpilib.org/en/stable/docs/software/advanced-controls/trajectories/ramsete.html
     m_driveController = new PPRamseteController(2.0, 0.7);
   }

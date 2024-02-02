@@ -3,17 +3,18 @@ package frc.robot.autonomous.modes;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.autonomous.tasks.BrakeTask;
-import frc.robot.autonomous.tasks.DriveForwardTask;
+import frc.robot.autonomous.tasks.DriveTrajectoryTask;
 
 public class PPTestMode extends AutoModeBase {
     @Override
     public Pose2d getBlueStartingPosition() {
-        return new Pose2d(1.23, 5.54, Rotation2d.fromDegrees(0));
+        return new Pose2d(1.27, 5.49, Rotation2d.fromDegrees(0));
     }
 
     public void queueTasks() {
-        queueTask(new DriveForwardTask(1, 0.4));
-        // queueTask(new DriveTrajectoryTask("TestPath", 2, 1));
+        // queueTask(new DriveForwardTask(1, 0.4));
+        // queueTask(new DriveTrajectoryTask("TestPath", 9999, 9999));
+        queueTask(new DriveTrajectoryTask("SubLeftNote1", 9999, 9999));
 
         queueTask(new BrakeTask());
     }
