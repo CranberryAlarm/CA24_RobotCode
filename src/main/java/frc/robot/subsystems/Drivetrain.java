@@ -44,7 +44,7 @@ public class Drivetrain extends Subsystem {
   private static final double kSpeedModeScale = 2.0;
   private static final double kTrackWidth = Units.inchesToMeters(22.0);
   private static final double kWheelRadius = Units.inchesToMeters(3.0);
-  private static final double kGearRatio = 10.61;
+  private static final double kGearRatio = 10.71;
   private static final double kMetersPerRev = (2.0 * Math.PI * kWheelRadius) / kGearRatio;
 
   private final SimulatableCANSparkMax mLeftLeader = new SimulatableCANSparkMax(Constants.kDrivetrainFLMotorId,

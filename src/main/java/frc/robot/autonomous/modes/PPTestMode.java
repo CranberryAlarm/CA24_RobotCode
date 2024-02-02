@@ -8,13 +8,18 @@ import frc.robot.autonomous.tasks.DriveTrajectoryTask;
 public class PPTestMode extends AutoModeBase {
     @Override
     public Pose2d getBlueStartingPosition() {
-        return new Pose2d(1.27, 5.49, Rotation2d.fromDegrees(0));
+        // BlueSubStart
+        // return new Pose2d(1.27, 5.49, Rotation2d.fromDegrees(0));
+
+        // RedSubStart
+        return new Pose2d(15.19, 5.49, Rotation2d.fromDegrees(0));
     }
 
     public void queueTasks() {
         // queueTask(new DriveForwardTask(1, 0.4));
         // queueTask(new DriveTrajectoryTask("TestPath", 9999, 9999));
-        queueTask(new DriveTrajectoryTask("SubLeftNote1", 9999, 9999));
+        // queueTask(new DriveTrajectoryTask("SubLeftNote1", 9999, 9999));
+        queueTask(new DriveTrajectoryTask("RedLeftLong", 9999, 9999));
 
         queueTask(new BrakeTask());
     }
