@@ -130,7 +130,7 @@ public class Drivetrain extends Subsystem {
     mRightEncoder.setPosition(0.0);
 
     mOdometry = new DifferentialDriveOdometry(mGyro.getRotation2d(),
-        mLeftEncoder.getPosition(), -mRightEncoder.getPosition());
+        mLeftEncoder.getPosition(), mRightEncoder.getPosition());
 
     mPeriodicIO = new PeriodicIO();
 
@@ -203,7 +203,7 @@ public class Drivetrain extends Subsystem {
 
   /** Update robot odometry. */
   public void updateOdometry() {
-    mOdometry.update(mGyro.getRotation2d(), -mLeftEncoder.getPosition(), mRightEncoder.getPosition());
+    mOdometry.update(mGyro.getRotation2d(), mLeftEncoder.getPosition(), -mRightEncoder.getPosition());
   }
 
   /** Resets robot odometry. */
@@ -224,14 +224,14 @@ public class Drivetrain extends Subsystem {
     mOdometry.resetPosition(
         mGyro.getRotation2d(),
         mLeftEncoder.getPosition(),
-        mRightEncoder.getPosition(),
+        -mRightEncoder.getPosition(),
         pose);
   }
 
   public ChassisSpeeds getCurrentSpeeds() {
     DifferentialDriveWheelSpeeds wheelSpeeds = new DifferentialDriveWheelSpeeds(
         mLeftEncoder.getVelocity(),
-        mRightEncoder.getVelocity());
+        -mRightEncoder.getVelocity());
 
     return mKinematics.toChassisSpeeds(wheelSpeeds);
   }

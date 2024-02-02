@@ -3,7 +3,7 @@ package frc.robot.autonomous.modes;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.autonomous.tasks.BrakeTask;
-import frc.robot.autonomous.tasks.DriveTrajectoryTask;
+import frc.robot.autonomous.tasks.DriveForwardTask;
 
 public class PPTestMode extends AutoModeBase {
     @Override
@@ -12,7 +12,8 @@ public class PPTestMode extends AutoModeBase {
     }
 
     public void queueTasks() {
-        queueTask(new DriveTrajectoryTask("TestPath", 2, 1));
+        queueTask(new DriveForwardTask(1, 0.4));
+        // queueTask(new DriveTrajectoryTask("TestPath", 2, 1));
 
         queueTask(new BrakeTask());
     }
