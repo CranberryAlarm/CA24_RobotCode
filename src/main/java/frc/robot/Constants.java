@@ -66,10 +66,10 @@ public class Constants {
   public static final double kClimberMaxOutput = 0.5;
 
   // Drivetrain
-  public static final int kDrivetrainFLMotorId = 5;
-  public static final int kDrivetrainBLMotorId = 6;
-  public static final int kDrivetrainFRMotorId = 7;
-  public static final int kDrivetrainBRMotorId = 8;
+  public static final int kDrivetrainFLMotorId = 8;
+  public static final int kDrivetrainBLMotorId = 7;
+  public static final int kDrivetrainFRMotorId = 6;
+  public static final int kDrivetrainBRMotorId = 5;
 
   public static class Field {
     public static final double k_width = Units.feetToMeters(54.0);

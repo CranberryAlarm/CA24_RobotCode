@@ -28,6 +28,7 @@ public class LEDs extends Subsystem {
   }
 
   private LEDs() {
+    super("LEDs");
     m_led = new AddressableLED(Constants.LEDs.k_PWMId);
     m_led.setLength(m_ledTotalLength);
     m_buffer = new AddressableLEDBuffer(m_ledTotalLength);

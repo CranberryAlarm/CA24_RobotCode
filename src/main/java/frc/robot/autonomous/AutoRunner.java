@@ -3,6 +3,7 @@ package frc.robot.autonomous;
 import frc.robot.autonomous.modes.AutoModeBase;
 import frc.robot.autonomous.modes.DefaultMode;
 import frc.robot.autonomous.modes.DoNothingMode;
+import frc.robot.autonomous.modes.PPTestMode;
 import frc.robot.autonomous.tasks.Task;
 
 public class AutoRunner {
@@ -18,7 +19,8 @@ public class AutoRunner {
 
   public enum AutoMode {
     DO_NOTHING,
-    DEFAULT
+    DEFAULT,
+    PP_TEST_MODE
   }
 
   public Task getNextTask() {
@@ -32,6 +34,9 @@ public class AutoRunner {
         break;
       case DEFAULT:
         m_autoMode = new DefaultMode();
+        break;
+      case PP_TEST_MODE:
+        m_autoMode = new PPTestMode();
         break;
       default:
         System.out.println("Invalid auto mode selected. Defaulting to do nothing.");

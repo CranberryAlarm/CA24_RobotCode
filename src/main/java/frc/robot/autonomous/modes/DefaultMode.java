@@ -13,8 +13,8 @@ import frc.robot.subsystems.Intake.PivotTarget;
 
 public class DefaultMode extends AutoModeBase {
   @Override
-  public Pose2d getRedStartingPosition() {
-    return new Pose2d(14.655021228445234, 4.458172598636864, Rotation2d.fromDegrees(180));
+  public Pose2d getBlueStartingPosition() {
+    return new Pose2d(2.374, 5.636, Rotation2d.fromDegrees(0));
   }
 
   public void queueTasks() {

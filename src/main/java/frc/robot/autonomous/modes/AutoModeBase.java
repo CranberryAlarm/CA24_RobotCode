@@ -6,6 +6,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.Constants;
 import frc.robot.autonomous.tasks.Task;
 import frc.robot.subsystems.Drivetrain;
@@ -38,25 +39,27 @@ public abstract class AutoModeBase {
 
   public abstract void queueTasks();
 
-  public abstract Pose2d getRedStartingPosition();
+  public abstract Pose2d getBlueStartingPosition();
 
-  private Pose2d getBlueStartingPosition() {
-    Rotation2d blueStartingRotation = Rotation2d.fromDegrees(getRedStartingPosition().getRotation().getDegrees() - 180);
+  private Pose2d getRedStartingPosition() {
+    Rotation2d redStartingRotation = Rotation2d.fromDegrees(getBlueStartingPosition().getRotation().getDegrees() - 180);
 
     Translation2d blueStartingTranslation = new Translation2d(
-        Constants.Field.k_width - getRedStartingPosition().getX(),
-        getRedStartingPosition().getY());
+        Constants.Field.k_width - getBlueStartingPosition().getX(),
+        getBlueStartingPosition().getY());
 
-    return new Pose2d(blueStartingTranslation, blueStartingRotation);
+    return new Pose2d(blueStartingTranslation, redStartingRotation);
   };
 
   private Pose2d getStartingPosition() {
-    // TODO: Deal with this later
-    DriverStation.Alliance alliance = DriverStation.getAlliance().get();
+    // Defaults to blue alliance, same as PathPlanner
+    Alliance alliance = DriverStation.getAlliance().orElse(Alliance.Blue);
 
-    if (alliance == DriverStation.Alliance.Blue) {
+    if (alliance == Alliance.Blue) {
+      System.out.println("Running auto from BLUE alliance");
       return getBlueStartingPosition();
     } else {
+      System.out.println("Running auto from RED alliance");
       return getRedStartingPosition();
     }
   }

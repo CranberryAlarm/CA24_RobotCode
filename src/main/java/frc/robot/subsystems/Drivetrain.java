@@ -26,9 +26,8 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
+import frc.robot.simulation.Field;
 import frc.robot.simulation.SimulatableCANSparkMax;
 
 public class Drivetrain extends Subsystem {
@@ -45,8 +44,8 @@ public class Drivetrain extends Subsystem {
   private static final double kSpeedModeScale = 2.0;
   private static final double kTrackWidth = Units.inchesToMeters(22.0);
   private static final double kWheelRadius = Units.inchesToMeters(3.0);
-  private static final double kGearRatio = 10.61;
-  private static final double kMetersPerRev = (2 * Math.PI * kWheelRadius) / kGearRatio;
+  private static final double kGearRatio = 10.71;
+  private static final double kMetersPerRev = (2.0 * Math.PI * kWheelRadius) / kGearRatio;
 
   private final SimulatableCANSparkMax mLeftLeader = new SimulatableCANSparkMax(Constants.kDrivetrainFLMotorId,
       MotorType.kBrushless);
@@ -79,7 +78,7 @@ public class Drivetrain extends Subsystem {
   // private final AnalogGyroSim mGyroSim = new AnalogGyroSim(mgyro);
   // private final EncoderSim mLeftEncoderSim = new EncoderSim(mleftEncoder);
   // private final EncoderSim mRightEncoderSim = new EncoderSim(mrightEncoder);
-  private final Field2d mFieldSim = new Field2d();
+  private final Field m_field = Field.getInstance();
   private final LinearSystem<N2, N2, N2> mDrivetrainSystem = LinearSystemId.identifyDrivetrainSystem(1.98, 0.2, 1.5,
       0.3);
   private final DifferentialDrivetrainSim mDrivetrainSimulator = new DifferentialDrivetrainSim(
@@ -96,6 +95,8 @@ public class Drivetrain extends Subsystem {
   }
 
   public Drivetrain() {
+    super("Drivetrain");
+
     mGyro.reset();
 
     mLeftLeader.restoreFactoryDefaults();
@@ -129,7 +130,7 @@ public class Drivetrain extends Subsystem {
     mRightEncoder.setPosition(0.0);
 
     mOdometry = new DifferentialDriveOdometry(mGyro.getRotation2d(),
-        mLeftEncoder.getPosition(), -mRightEncoder.getPosition());
+        mLeftEncoder.getPosition(), mRightEncoder.getPosition());
 
     mPeriodicIO = new PeriodicIO();
 
@@ -142,8 +143,6 @@ public class Drivetrain extends Subsystem {
         new ReplanningConfig(), // Default path replanning config. See the API for the options here
         this // Reference to this subsystem to set requirements
     );
-
-    SmartDashboard.putData("Field", mFieldSim);
   }
 
   private static class PeriodicIO {
@@ -213,8 +212,7 @@ public class Drivetrain extends Subsystem {
     mRightEncoder.setPosition(0.0);
     mDrivetrainSimulator.setPose(pose);
 
-    mOdometry.resetPosition(pose.getRotation(), mLeftEncoder.getPosition(),
-        -mRightEncoder.getPosition(), pose);
+    mOdometry.resetPosition(pose.getRotation(), 0.0, 0.0, pose);
   }
 
   /** Check the current robot pose. */
@@ -226,13 +224,14 @@ public class Drivetrain extends Subsystem {
     mOdometry.resetPosition(
         mGyro.getRotation2d(),
         mLeftEncoder.getPosition(),
-        mRightEncoder.getPosition(),
+        -mRightEncoder.getPosition(),
         pose);
   }
 
   public ChassisSpeeds getCurrentSpeeds() {
-    DifferentialDriveWheelSpeeds wheelSpeeds = new DifferentialDriveWheelSpeeds(mLeftEncoder.getVelocity(),
-        mRightEncoder.getVelocity());
+    DifferentialDriveWheelSpeeds wheelSpeeds = new DifferentialDriveWheelSpeeds(
+        mLeftEncoder.getVelocity(),
+        -mRightEncoder.getVelocity());
 
     return mKinematics.toChassisSpeeds(wheelSpeeds);
   }
@@ -267,7 +266,7 @@ public class Drivetrain extends Subsystem {
     mPeriodicIO.leftVoltage = leftOutput + leftFeedforward;
     mPeriodicIO.rightVoltage = rightOutput + rightFeedforward;
     updateOdometry();
-    mFieldSim.setRobotPose(getPose());
+    m_field.setRobotPose(getPose());
   }
 
   @Override
@@ -289,12 +288,12 @@ public class Drivetrain extends Subsystem {
 
   @Override
   public void outputTelemetry() {
-    SmartDashboard.putNumber("leftVelocitySetPoint", mPeriodicIO.diffWheelSpeeds.leftMetersPerSecond);
-    SmartDashboard.putNumber("rightVelocitySetPoint", mPeriodicIO.diffWheelSpeeds.rightMetersPerSecond);
-    SmartDashboard.putNumber("leftVelocity", mLeftEncoder.getVelocity());
-    SmartDashboard.putNumber("rightVelocity", -mRightEncoder.getVelocity());
-    SmartDashboard.putNumber("leftMeters", mLeftEncoder.getPosition());
-    SmartDashboard.putNumber("rightMeters", -mRightEncoder.getPosition());
-    SmartDashboard.putNumber("Gyro", mGyro.getAngle());
+    putNumber("leftVelocitySetPoint", mPeriodicIO.diffWheelSpeeds.leftMetersPerSecond);
+    putNumber("rightVelocitySetPoint", mPeriodicIO.diffWheelSpeeds.rightMetersPerSecond);
+    putNumber("leftVelocity", mLeftEncoder.getVelocity());
+    putNumber("rightVelocity", -mRightEncoder.getVelocity());
+    putNumber("leftMeters", mLeftEncoder.getPosition());
+    putNumber("rightMeters", -mRightEncoder.getPosition());
+    putNumber("Gyro", mGyro.getAngle());
   }
 }

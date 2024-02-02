@@ -1,8 +1,13 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public abstract class Subsystem extends SubsystemBase {
+  public Subsystem(String baseSmartDashboardKey) {
+    this.baseSmartDashboardKey = baseSmartDashboardKey;
+  }
 
   /**
    * Writes the relevant subsystem information to the log
@@ -58,4 +63,34 @@ public abstract class Subsystem extends SubsystemBase {
    * Puts the relevant subsystem information on the SmartDashboard
    */
   public abstract void outputTelemetry();
+
+  public String baseSmartDashboardKey = "UnknownSubsystem/";
+
+  public void putNumber(String key, double value) {
+    SmartDashboard.putNumber(baseSmartDashboardKey + "/" + key, value);
+  }
+
+  public void putBoolean(String key, boolean value) {
+    SmartDashboard.putBoolean(baseSmartDashboardKey + "/" + key, value);
+  }
+
+  public void putString(String key, String value) {
+    SmartDashboard.putString(baseSmartDashboardKey + "/" + key, value);
+  }
+
+  public void putNumberArray(String key, double[] value) {
+    SmartDashboard.putNumberArray(baseSmartDashboardKey + "/" + key, value);
+  }
+
+  public void putBooleanArray(String key, boolean[] value) {
+    SmartDashboard.putBooleanArray(baseSmartDashboardKey + "/" + key, value);
+  }
+
+  public void putStringArray(String key, String[] value) {
+    SmartDashboard.putStringArray(baseSmartDashboardKey + "/" + key, value);
+  }
+
+  public void putData(String key, Sendable value) {
+    SmartDashboard.putData(baseSmartDashboardKey + "/" + key, value);
+  }
 }

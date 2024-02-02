@@ -10,12 +10,14 @@ import java.util.List;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.autonomous.AutoChooser;
 import frc.robot.autonomous.AutoRunner;
 import frc.robot.autonomous.tasks.Task;
 import frc.robot.controls.controllers.DriverController;
 import frc.robot.controls.controllers.OperatorController;
+import frc.robot.simulation.Field;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Compressor;
 import frc.robot.subsystems.Drivetrain;
@@ -55,17 +57,24 @@ public class Robot extends TimedRobot {
   private AutoRunner m_autoRunner = AutoRunner.getInstance();
   private AutoChooser m_autoChooser = new AutoChooser();
 
+  // Simulation stuff
+  private final Field m_field = Field.getInstance();
+
   /**
    * This function is run when the robot is first started up.
    */
   @Override
   public void robotInit() {
+    // Add all subsystems to the list
     m_allSubsystems.add(m_intake);
     m_allSubsystems.add(m_compressor);
     m_allSubsystems.add(m_drive);
     m_allSubsystems.add(m_shooter);
     m_allSubsystems.add(m_climber);
     m_allSubsystems.add(m_leds);
+
+    // Set up the Field2d object for simulation
+    SmartDashboard.putData("Field", m_field);
   }
 
   @Override
@@ -74,6 +83,8 @@ public class Robot extends TimedRobot {
     m_allSubsystems.forEach(subsystem -> subsystem.writePeriodicOutputs());
     m_allSubsystems.forEach(subsystem -> subsystem.outputTelemetry());
     m_allSubsystems.forEach(subsystem -> subsystem.writeToLog());
+
+    updateSim();
   }
 
   @Override
@@ -118,7 +129,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     // Get the x speed. We are inverting this because Xbox controllers return
     // negative values when we push forward.
-    double xSpeed = -m_speedLimiter.calculate(-m_driverController.getForwardAxis()) *
+    double xSpeed = m_speedLimiter.calculate(m_driverController.getForwardAxis()) *
         Drivetrain.kMaxSpeed;
 
     // Get the rate of angular rotation. We are inverting this because we want a
@@ -127,7 +138,7 @@ public class Robot extends TimedRobot {
     // the right by default.
     m_drive.slowMode(m_driverController.getWantsSlowMode());
     m_drive.speedMode(m_driverController.getWantsSpeedMode());
-    double rot = -m_rotLimiter.calculate(-m_driverController.getTurnAxis()) *
+    double rot = m_rotLimiter.calculate(m_driverController.getTurnAxis()) *
         Drivetrain.kMaxAngularSpeed;
 
     m_drive.drive(xSpeed, rot);
@@ -214,5 +225,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void simulationPeriodic() {
+  }
+
+  private void updateSim() {
+    // Update the odometry in the sim.
+    m_field.setRobotPose(m_drive.getPose());
   }
 }
