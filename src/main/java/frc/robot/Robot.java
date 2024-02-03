@@ -44,8 +44,8 @@ public class Robot extends TimedRobot {
   private final OperatorController m_operatorController = new OperatorController(1, true, true);
   private final GenericHID sysIdController = new GenericHID(2);
 
-  private final SlewRateLimiter m_speedLimiter = new SlewRateLimiter(3); // 3 seconds to go from 0.0 to 1.0
-  private final SlewRateLimiter m_rotLimiter = new SlewRateLimiter(3); // 3 seconds to go from 0.0 to 1.0
+  private final SlewRateLimiter m_speedLimiter = new SlewRateLimiter(Drivetrain.kMaxAcceleration);
+  private final SlewRateLimiter m_rotLimiter = new SlewRateLimiter(Math.PI * 8);
 
   // Robot subsystems
   private List<Subsystem> m_allSubsystems = new ArrayList<>();
@@ -136,17 +136,17 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     // Get the x speed. We are inverting this because Xbox controllers return
     // negative values when we push forward.
-    double xSpeed = m_speedLimiter.calculate(m_driverController.getForwardAxis()) *
-        Drivetrain.kMaxSpeed;
+    double maxSpeed = m_driverController.getWantsSpeedMode() ? Drivetrain.kMaxBoostSpeed : Drivetrain.kMaxSpeed;
+    double xSpeed = m_speedLimiter.calculate(m_driverController.getForwardAxis() * maxSpeed);
 
     // Get the rate of angular rotation. We are inverting this because we want a
     // positive value when we pull to the left (remember, CCW is positive in
     // mathematics). Xbox controllers return positive values when you pull to
     // the right by default.
-    m_drive.slowMode(m_driverController.getWantsSlowMode());
-    m_drive.speedMode(m_driverController.getWantsSpeedMode());
-    double rot = m_rotLimiter.calculate(m_driverController.getTurnAxis()) *
-        Drivetrain.kMaxAngularSpeed;
+
+    // m_drive.slowMode(m_driverController.getWantsSlowMode());
+    // m_drive.speedMode(m_driverController.getWantsSpeedMode());
+    double rot = m_rotLimiter.calculate(m_driverController.getTurnAxis() * Drivetrain.kMaxAngularSpeed);
 
     m_drive.drive(xSpeed, rot);
 

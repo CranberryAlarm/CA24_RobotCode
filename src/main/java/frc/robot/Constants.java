@@ -53,8 +53,8 @@ public class Constants {
   // Climber
   public static final int kClimberLeftMotorId = 14;
   public static final int kClimberRightMotorId = 15;
-  public static final double kClimberClimbSpeed = 480.0; // RPM
-  public static final double kClimberReleaseSpeed = -480.0; // RPM
+  public static final double kClimberClimbSpeed = 600.0; // RPM
+  public static final double kClimberReleaseSpeed = -600.0; // RPM
 
   public static final double kClimberGearRatio = 1.0 / 12.0;
 

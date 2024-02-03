@@ -44,13 +44,14 @@ import frc.robot.simulation.SimulatableCANSparkMax;
 
 public class Drivetrain extends Subsystem {
   // 1 meters per second.
-  public static final double kMaxSpeed = 2.5; // TODO: this should be 4.0
+  public static final double kMaxSpeed = 2.0;
+  public static final double kMaxBoostSpeed = 4.0;
 
   // 3 meters per second.
-  public static final double kMaxAcceleration = 2.0;
+  public static final double kMaxAcceleration = 8.0;
 
   // 0.7 rotations per second.
-  public static final double kMaxAngularSpeed = Math.PI * 0.8;
+  public static final double kMaxAngularSpeed = Math.PI * 1.0;
 
   private static final double kSlowModeRotScale = 0.1;
   private static final double kSpeedModeScale = 2.0;
