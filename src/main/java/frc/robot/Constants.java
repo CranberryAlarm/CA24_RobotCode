@@ -24,7 +24,7 @@ public class Constants {
     public static final double k_pivotAngleGround = 60;
     public static final double k_pivotAngleSource = 190;
     public static final double k_pivotAngleAmp = k_pivotAngleSource;
-    public static final double k_pivotAngleStow = 270;
+    public static final double k_pivotAngleStow = 275;
 
     // Intake speeds
     public static final double k_intakeSpeed = 0.7;
@@ -53,8 +53,8 @@ public class Constants {
   // Climber
   public static final int kClimberLeftMotorId = 14;
   public static final int kClimberRightMotorId = 15;
-  public static final double kClimberClimbSpeed = 480.0; // RPM
-  public static final double kClimberReleaseSpeed = -480.0; // RPM
+  public static final double kClimberClimbSpeed = 600.0; // RPM
+  public static final double kClimberReleaseSpeed = -600.0; // RPM
 
   public static final double kClimberGearRatio = 1.0 / 12.0;
 
@@ -66,10 +66,19 @@ public class Constants {
   public static final double kClimberMaxOutput = 0.5;
 
   // Drivetrain
-  public static final int kDrivetrainFLMotorId = 8;
-  public static final int kDrivetrainBLMotorId = 7;
-  public static final int kDrivetrainFRMotorId = 6;
-  public static final int kDrivetrainBRMotorId = 5;
+  public static class Drive {
+    public static final double kP = 0.085;
+    public static final double kI = 0.0;
+    public static final double kD = 0.0;
+
+    public static final double kS = 0.01;
+    public static final double kV = 2.6;
+
+    public static final int kFLMotorId = 8;
+    public static final int kBLMotorId = 7;
+    public static final int kFRMotorId = 6;
+    public static final int kBRMotorId = 5;
+  }
 
   public static class Field {
     public static final double k_width = Units.feetToMeters(54.0);

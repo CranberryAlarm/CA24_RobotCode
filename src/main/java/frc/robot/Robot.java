@@ -9,9 +9,12 @@ import java.util.List;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.autonomous.AutoChooser;
 import frc.robot.autonomous.AutoRunner;
 import frc.robot.autonomous.tasks.Task;
@@ -22,6 +25,7 @@ import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Compressor;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Intake.IntakeState;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Subsystem;
 import frc.robot.subsystems.leds.LEDs;
@@ -39,9 +43,10 @@ public class Robot extends TimedRobot {
   // Controller
   private final DriverController m_driverController = new DriverController(0, true, true);
   private final OperatorController m_operatorController = new OperatorController(1, true, true);
+  private final GenericHID sysIdController = new GenericHID(2);
 
-  private final SlewRateLimiter m_speedLimiter = new SlewRateLimiter(3); // 3 seconds to go from 0.0 to 1.0
-  private final SlewRateLimiter m_rotLimiter = new SlewRateLimiter(3); // 3 seconds to go from 0.0 to 1.0
+  private final SlewRateLimiter m_speedLimiter = new SlewRateLimiter(Drivetrain.kMaxAcceleration);
+  private final SlewRateLimiter m_rotLimiter = new SlewRateLimiter(Math.PI * 8);
 
   // Robot subsystems
   private List<Subsystem> m_allSubsystems = new ArrayList<>();
@@ -85,6 +90,9 @@ public class Robot extends TimedRobot {
     m_allSubsystems.forEach(subsystem -> subsystem.writeToLog());
 
     updateSim();
+
+    // Used by sysid
+    // CommandScheduler.getInstance().run();
   }
 
   @Override
@@ -129,24 +137,24 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     // Get the x speed. We are inverting this because Xbox controllers return
     // negative values when we push forward.
-    double xSpeed = m_speedLimiter.calculate(m_driverController.getForwardAxis()) *
-        Drivetrain.kMaxSpeed;
+    double maxSpeed = m_driverController.getWantsSpeedMode() ? Drivetrain.kMaxBoostSpeed : Drivetrain.kMaxSpeed;
+    double xSpeed = m_speedLimiter.calculate(m_driverController.getForwardAxis() * maxSpeed);
 
     // Get the rate of angular rotation. We are inverting this because we want a
     // positive value when we pull to the left (remember, CCW is positive in
     // mathematics). Xbox controllers return positive values when you pull to
     // the right by default.
-    m_drive.slowMode(m_driverController.getWantsSlowMode());
-    m_drive.speedMode(m_driverController.getWantsSpeedMode());
-    double rot = m_rotLimiter.calculate(m_driverController.getTurnAxis()) *
-        Drivetrain.kMaxAngularSpeed;
+
+    // m_drive.slowMode(m_driverController.getWantsSlowMode());
+    // m_drive.speedMode(m_driverController.getWantsSpeedMode());
+    double rot = m_rotLimiter.calculate(m_driverController.getTurnAxis() * Drivetrain.kMaxAngularSpeed);
 
     m_drive.drive(xSpeed, rot);
 
     // Shooter variable speed
     if (m_driverController.getWantsMoreSpeed() || m_operatorController.getWantsMoreSpeed()) {
       m_leds.setColor(Color.kPink);
-      speed = 10000;
+      speed = 3000;
     } else if (m_driverController.getWantsLessSpeed() || m_operatorController.getWantsLessSpeed()) {
       m_leds.setColor(Color.kOrange);
       speed = 430;
@@ -172,7 +180,7 @@ public class Robot extends TimedRobot {
       m_intake.goToSource();
     } else if (m_driverController.getWantsStow()) {
       m_intake.goToStow();
-    } else {
+    } else if (m_intake.getIntakeState() != IntakeState.INTAKE) {
       m_intake.stopIntake();
     }
 
@@ -213,10 +221,26 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testInit() {
+    CommandScheduler.getInstance().cancelAll();
   }
 
   @Override
   public void testPeriodic() {
+    if (sysIdController.getRawButtonPressed(1)) {
+      // A
+      m_drive.sysIdQuasistatic(SysIdRoutine.Direction.kForward).schedule();
+    } else if (sysIdController.getRawButtonPressed(2)) {
+      // B
+      m_drive.sysIdQuasistatic(SysIdRoutine.Direction.kReverse).schedule();
+    } else if (sysIdController.getRawButtonPressed(3)) {
+      // X
+      m_drive.sysIdDynamic(SysIdRoutine.Direction.kForward).schedule();
+    } else if (sysIdController.getRawButtonPressed(4)) {
+      // Y
+      m_drive.sysIdDynamic(SysIdRoutine.Direction.kReverse).schedule();
+    } else if (sysIdController.getRawButtonPressed(8)) {
+      CommandScheduler.getInstance().cancelAll();
+    }
   }
 
   @Override
