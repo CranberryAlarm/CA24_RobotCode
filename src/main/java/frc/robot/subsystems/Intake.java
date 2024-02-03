@@ -190,19 +190,23 @@ public class Intake extends Subsystem {
   // Pivot helper functions
   public void goToGround() {
     m_periodicIO.pivot_target = PivotTarget.GROUND;
+    m_periodicIO.intake_state = IntakeState.INTAKE;
     m_leds.setColor(Color.kYellow);
   }
 
   public void goToSource() {
     m_periodicIO.pivot_target = PivotTarget.SOURCE;
+    m_periodicIO.intake_state = IntakeState.NONE;
   }
 
   public void goToAmp() {
     m_periodicIO.pivot_target = PivotTarget.SOURCE;
+    m_periodicIO.intake_state = IntakeState.NONE;
   }
 
   public void goToStow() {
     m_periodicIO.pivot_target = PivotTarget.STOW;
+    m_periodicIO.intake_state = IntakeState.NONE;
   }
 
   // Intake helper functions
@@ -242,6 +246,7 @@ public class Intake extends Subsystem {
     // Stop the intake and go to the SOURCE position
     if (m_periodicIO.pivot_target == PivotTarget.GROUND && getIntakeHasNote() && isPivotAtTarget()) {
       m_periodicIO.pivot_target = PivotTarget.STOW;
+      m_periodicIO.intake_state = IntakeState.NONE;
       m_leds.setColor(Color.kGreen);
     }
   }

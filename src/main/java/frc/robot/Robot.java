@@ -25,6 +25,7 @@ import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Compressor;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Intake.IntakeState;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Subsystem;
 import frc.robot.subsystems.leds.LEDs;
@@ -153,7 +154,7 @@ public class Robot extends TimedRobot {
     // Shooter variable speed
     if (m_driverController.getWantsMoreSpeed() || m_operatorController.getWantsMoreSpeed()) {
       m_leds.setColor(Color.kPink);
-      speed = 10000;
+      speed = 3000;
     } else if (m_driverController.getWantsLessSpeed() || m_operatorController.getWantsLessSpeed()) {
       m_leds.setColor(Color.kOrange);
       speed = 430;
@@ -179,7 +180,7 @@ public class Robot extends TimedRobot {
       m_intake.goToSource();
     } else if (m_driverController.getWantsStow()) {
       m_intake.goToStow();
-    } else {
+    } else if (m_intake.getIntakeState() != IntakeState.INTAKE) {
       m_intake.stopIntake();
     }
 

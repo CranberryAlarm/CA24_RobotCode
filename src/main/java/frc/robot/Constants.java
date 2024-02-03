@@ -24,7 +24,7 @@ public class Constants {
     public static final double k_pivotAngleGround = 60;
     public static final double k_pivotAngleSource = 190;
     public static final double k_pivotAngleAmp = k_pivotAngleSource;
-    public static final double k_pivotAngleStow = 270;
+    public static final double k_pivotAngleStow = 275;
 
     // Intake speeds
     public static final double k_intakeSpeed = 0.7;
