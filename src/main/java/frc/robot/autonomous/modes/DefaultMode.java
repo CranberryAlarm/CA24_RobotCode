@@ -31,13 +31,13 @@ public class DefaultMode extends AutoModeBase {
         new IntakeTask(IntakeState.INTAKE, PivotTarget.GROUND),
         new WaitTask(0.1)));
 
-    queueTask(new DriveForwardTask(1, 0.4));
+    queueTask(new DriveForwardTask(1.3, 0.4));
 
     queueTask(new ParallelTask(
         new IntakeTask(IntakeState.PULSE, PivotTarget.STOW),
         new WaitTask(0.1)));
 
-    queueTask(new DriveForwardTask(1, -0.4));
+    queueTask(new DriveForwardTask(1.2, -0.4));
 
     queueTask(new ParallelTask(
         new IntakeTask(IntakeState.EJECT, PivotTarget.STOW),
