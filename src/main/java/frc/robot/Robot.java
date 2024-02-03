@@ -197,11 +197,11 @@ public class Robot extends TimedRobot {
       m_climber.stopClimber();
     }
 
-    if (m_operatorController.getWantsBrakeMode()) {
-      m_climber.setBrakeMode();
-    } else if (m_operatorController.getWantsCoastMode()) {
-      m_climber.setCoastMode();
-    }
+    // if (m_operatorController.getWantsBrakeMode()) {
+    // m_climber.setBrakeMode();
+    // } else if (m_operatorController.getWantsCoastMode()) {
+    // m_climber.setCoastMode();
+    // }
   }
 
   @Override
