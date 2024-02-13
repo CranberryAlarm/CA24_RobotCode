@@ -9,6 +9,8 @@ import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.Volts;
 
+import java.util.function.BooleanSupplier;
+
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.ReplanningConfig;
@@ -173,6 +175,12 @@ public class Drivetrain extends Subsystem {
         this::getCurrentSpeeds, // Current ChassisSpeeds supplier
         this::drive, // Method that will drive the robot given ChassisSpeeds
         new ReplanningConfig(), // Default path replanning config. See the API for the options here
+        new BooleanSupplier() {
+          @Override
+          public boolean getAsBoolean() {
+            return true;
+          }
+        },
         this // Reference to this subsystem to set requirements
     );
 
