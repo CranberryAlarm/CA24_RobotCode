@@ -9,6 +9,7 @@ import java.util.List;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -25,6 +26,7 @@ import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Compressor;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Intake.IntakeState;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Subsystem;
@@ -56,6 +58,7 @@ public class Robot extends TimedRobot {
   private final Shooter m_shooter = Shooter.getInstance();
   private final Climber m_climber = Climber.getInstance();
   public final LEDs m_leds = LEDs.getInstance();
+  private Limelight m_limelight;
 
   // Auto stuff
   private Task m_currentTask;
@@ -78,6 +81,8 @@ public class Robot extends TimedRobot {
     m_allSubsystems.add(m_climber);
     m_allSubsystems.add(m_leds);
 
+    m_limelight = new Limelight("test");
+
     // Set up the Field2d object for simulation
     SmartDashboard.putData("Field", m_field);
   }
@@ -88,6 +93,8 @@ public class Robot extends TimedRobot {
     m_allSubsystems.forEach(subsystem -> subsystem.writePeriodicOutputs());
     m_allSubsystems.forEach(subsystem -> subsystem.outputTelemetry());
     m_allSubsystems.forEach(subsystem -> subsystem.writeToLog());
+
+    m_limelight.outputTelemetry();
 
     updateSim();
 

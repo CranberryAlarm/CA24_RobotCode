@@ -80,6 +80,11 @@ public class Constants {
     public static final int kBRMotorId = 5;
   }
 
+  public static class Limelight {
+    public static final double k_height = 0.3048;
+    public static final double k_pitch = 0;
+  }
+
   public static class Field {
     public static final double k_width = Units.feetToMeters(54.0);
     public static final double k_length = Units.feetToMeters(27.0);
