@@ -12,11 +12,14 @@
             "/DriverStation/Joystick0/AxisValues",
             "/DriverStation/Joystick0/POVs",
             "/RealOutputs",
-            "/PowerDistribution"
+            "/RealOutputs/Drivetrain",
+            "/RealOutputs/Drivetrain/Pose",
+            "/RealOutputs/Drivetrain/Pose/rotation",
+            "/RealOutputs/Drivetrain/Pose/translation"
           ]
         },
         "tabs": {
-          "selected": 1,
+          "selected": 2,
           "tabs": [
             {
               "type": 0,
@@ -52,6 +55,34 @@
                 }
               },
               "title": "Battery Voltage"
+            },
+            {
+              "type": 5,
+              "uuid": "639yydbtvc70ma03d15vnq68r03xhucw",
+              "fields": [],
+              "listFields": [
+                [
+                  {
+                    "type": "Robot",
+                    "key": "/RealOutputs/Drivetrain/Pose",
+                    "sourceTypeIndex": 1,
+                    "sourceType": "Pose2d"
+                  }
+                ]
+              ],
+              "options": {
+                "game": "2024 Field",
+                "unitDistance": "meters",
+                "unitRotation": "radians",
+                "origin": "right",
+                "size": 0.76,
+                "allianceBumpers": "auto",
+                "allianceOrigin": "blue",
+                "orientation": "blue left, red right"
+              },
+              "configHidden": false,
+              "visualizer": null,
+              "title": "Field"
             },
             {
               "type": 3,

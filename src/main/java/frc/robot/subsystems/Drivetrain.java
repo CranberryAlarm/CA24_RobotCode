@@ -291,7 +291,11 @@ public class Drivetrain extends Subsystem {
     mRightEncoder.setPosition(0.0);
     mDrivetrainSimulator.setPose(pose);
 
-    mOdometry.resetPosition(pose.getRotation(), 0.0, 0.0, pose);
+    mOdometry.resetPosition(
+        mGyro.getRotation2d(),
+        0.0,
+        0.0,
+        pose);
   }
 
   /** Check the current robot pose. */

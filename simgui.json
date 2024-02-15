@@ -6,6 +6,19 @@
       "/SmartDashboard/Field": "Field2d"
     }
   },
+  "NetworkTables": {
+    "Persistent Values": {
+      "open": false
+    },
+    "transitory": {
+      "SmartDashboard": {
+        "Auto picker": {
+          "open": true
+        },
+        "open": true
+      }
+    }
+  },
   "NetworkTables Info": {
     "visible": true
   }

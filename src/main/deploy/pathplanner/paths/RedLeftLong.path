@@ -4,12 +4,12 @@
     {
       "anchor": {
         "x": 15.19,
-        "y": 5.539196629319185
+        "y": 5.54
       },
       "prevControl": null,
       "nextControl": {
         "x": 14.009145405771125,
-        "y": 5.539196629319185
+        "y": 5.54
       },
       "isLocked": false,
       "linkedName": "RedSubStart"
