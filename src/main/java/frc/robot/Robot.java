@@ -265,6 +265,8 @@ public class Robot extends LoggedRobot {
   }
 
   private void setupLogging() {
+    Logger.recordMetadata("ProjectName", "Flipside"); // Set a metadata value
+
     if (isReal()) {
       Logger.addDataReceiver(new WPILOGWriter()); // Log to a USB stick ("/U/logs")
       Logger.addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
@@ -278,5 +280,7 @@ public class Robot extends LoggedRobot {
     // Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath,
     // "_sim"))); // Save outputs to a new log
     // }
+
+    Logger.start();
   }
 }

@@ -11,6 +11,8 @@ import static edu.wpi.first.units.Units.Volts;
 
 import java.util.function.BooleanSupplier;
 
+import org.littletonrobotics.junction.AutoLogOutput;
+
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.ReplanningConfig;
@@ -293,6 +295,7 @@ public class Drivetrain extends Subsystem {
   }
 
   /** Check the current robot pose. */
+  @AutoLogOutput
   public Pose2d getPose() {
     return mOdometry.getPoseMeters();
   }
