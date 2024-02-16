@@ -176,3 +176,6 @@ logs/
 
 # Folder that has CTRE Phoenix Sim device config storage
 ctre_sim/
+
+# gversion build constants file
+src/main/java/frc/robot/BuildConstants.java

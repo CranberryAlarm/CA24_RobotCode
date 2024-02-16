@@ -45,5 +45,7 @@ public class AutoRunner {
     }
 
     m_autoMode.queueTasks();
+
+    m_autoMode.setStartingPose();
   }
 }

@@ -9,6 +9,10 @@ import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.Volts;
 
+import java.util.function.BooleanSupplier;
+
+import org.littletonrobotics.junction.AutoLogOutput;
+
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.ReplanningConfig;
@@ -173,6 +177,12 @@ public class Drivetrain extends Subsystem {
         this::getCurrentSpeeds, // Current ChassisSpeeds supplier
         this::drive, // Method that will drive the robot given ChassisSpeeds
         new ReplanningConfig(), // Default path replanning config. See the API for the options here
+        new BooleanSupplier() {
+          @Override
+          public boolean getAsBoolean() {
+            return true;
+          }
+        }, // determines if paths should be flipped to the other side of the field
         this // Reference to this subsystem to set requirements
     );
 
@@ -281,10 +291,15 @@ public class Drivetrain extends Subsystem {
     mRightEncoder.setPosition(0.0);
     mDrivetrainSimulator.setPose(pose);
 
-    mOdometry.resetPosition(pose.getRotation(), 0.0, 0.0, pose);
+    mOdometry.resetPosition(
+        mGyro.getRotation2d(),
+        0.0,
+        0.0,
+        pose);
   }
 
   /** Check the current robot pose. */
+  @AutoLogOutput
   public Pose2d getPose() {
     return mOdometry.getPoseMeters();
   }

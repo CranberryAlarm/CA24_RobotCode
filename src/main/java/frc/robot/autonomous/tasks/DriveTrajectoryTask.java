@@ -63,6 +63,7 @@ public class DriveTrajectoryTask extends Task {
 
     // Set the initial Pose2d
     m_drive.setPose(m_autoPath.getStartingDifferentialPose());
+    DriverStation.reportWarning(m_autoPath.getStartingDifferentialPose().toString(), false);
 
     m_drive.clearTurnPIDAccumulation();
     DriverStation.reportWarning("Running path for " + DriverStation.getAlliance().toString(), false);
@@ -97,6 +98,10 @@ public class DriveTrajectoryTask extends Task {
 
       m_drive.setPose(targetPose2d);
     }
+  }
+
+  public Pose2d getStartingPose() {
+    return m_autoPath.getStartingDifferentialPose();
   }
 
   @Override
