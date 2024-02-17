@@ -9,6 +9,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.AprilTagLocations;
 import frc.robot.Constants;
 
 public class Limelight {
@@ -43,8 +44,8 @@ public class Limelight {
         if (getLatestResult().hasTargets()) {
             return PhotonUtils.calculateDistanceToTargetMeters(
                 Constants.Limelight.k_height,
-                getTransform3d().getZ(),
-                Units.degreesToRadians(Constants.Limelight.k_pitch),
+                AprilTagLocations.Blue.k_speakerTag7.getZ(),
+                0, //TODO: THIS IS WRONG
                 Units.degreesToRadians(getBestTarget().getPitch()));
         }
 
@@ -61,8 +62,8 @@ public class Limelight {
         if (getLatestResult().hasTargets()) {
             SmartDashboard.putNumber("Limelight/ + " + m_limelightName + "/CurrentVisibleTag", getBestTarget().getFiducialId());
             SmartDashboard.putNumber("Limelight/ + " + m_limelightName + "/YawDegrees", getRotation());
+            SmartDashboard.putNumber("Limelight/ + " + m_limelightName + "/PitchDegrees", getBestTarget().getPitch());
             SmartDashboard.putNumber("Limelight/ + " + m_limelightName + "/DistanceFromBestTarget", getDistanceFromBestTarget());
         }
-
     }
 }
