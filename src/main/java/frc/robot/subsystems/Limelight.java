@@ -39,13 +39,12 @@ public class Limelight {
         return getBestTarget().getYaw();
     }
 
-
     public double getDistanceFromBestTarget() {
         if (getLatestResult().hasTargets()) {
             return PhotonUtils.calculateDistanceToTargetMeters(
                 Constants.Limelight.k_height,
                 AprilTagLocations.Blue.k_speakerTag7.getZ(),
-                0, //TODO: THIS IS WRONG
+                Units.degreesToRadians(Constants.Limelight.k_pitch),
                 Units.degreesToRadians(getBestTarget().getPitch()));
         }
 
