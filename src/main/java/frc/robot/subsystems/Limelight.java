@@ -31,12 +31,20 @@ public class Limelight {
         return getLatestResult().getBestTarget();
     }
 
-    public Transform3d getTransform3d() {
-        return getBestTarget().getBestCameraToTarget();
+    public PhotonTrackedTarget getTarget(int tagID) {
+        PhotonPipelineResult latest = getLatestResult();
+
+        for (PhotonTrackedTarget target: latest.targets) {
+            if (target.getFiducialId() == tagID) {
+                return target;
+            }
+        }
+
+        return null;
     }
 
-    public double getRotation() {
-        return getBestTarget().getYaw();
+    public Transform3d getTransform3d() {
+        return getBestTarget().getBestCameraToTarget();
     }
 
     public double getDistanceFromBestTarget() {
@@ -45,7 +53,7 @@ public class Limelight {
                 Constants.Limelight.k_height,
                 AprilTagLocations.Red.k_speakerTag3.getZ(),
                 Units.degreesToRadians(Constants.Limelight.k_pitch),
-                Units.degreesToRadians(getBestTarget().getPitch()));
+                Units.degreesToRadians(getTarget(3).getPitch()));
         }
 
         return -1;
@@ -60,9 +68,12 @@ public class Limelight {
 
         if (getLatestResult().hasTargets()) {
             SmartDashboard.putNumber("Limelight/ + " + m_limelightName + "/CurrentVisibleTag", getBestTarget().getFiducialId());
-            SmartDashboard.putNumber("Limelight/ + " + m_limelightName + "/YawDegrees", getRotation());
             SmartDashboard.putNumber("Limelight/ + " + m_limelightName + "/PitchDegrees", getBestTarget().getPitch());
             SmartDashboard.putNumber("Limelight/ + " + m_limelightName + "/DistanceFromBestTarget", getDistanceFromBestTarget());
+
+            SmartDashboard.putNumber("Limelight/ + " + m_limelightName + "/X", getTransform3d().getX());
+            SmartDashboard.putNumber("Limelight/ + " + m_limelightName + "/Y", getTransform3d().getY());
+            SmartDashboard.putNumber("Limelight/ + " + m_limelightName + "/Z", getTransform3d().getZ());
         }
     }
 }
