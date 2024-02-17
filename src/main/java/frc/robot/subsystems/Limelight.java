@@ -43,7 +43,7 @@ public class Limelight {
         if (getLatestResult().hasTargets()) {
             return PhotonUtils.calculateDistanceToTargetMeters(
                 Constants.Limelight.k_height,
-                AprilTagLocations.Blue.k_speakerTag7.getZ(),
+                AprilTagLocations.Red.k_speakerTag3.getZ(),
                 Units.degreesToRadians(Constants.Limelight.k_pitch),
                 Units.degreesToRadians(getBestTarget().getPitch()));
         }

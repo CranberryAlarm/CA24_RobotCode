@@ -81,7 +81,7 @@ public class Constants {
   }
 
   public static class Limelight {
-    public static final double k_height = 0.3048;
+    public static final double k_height = Units.inchesToMeters(15);
     public static final double k_pitch = 0;
   }
 
